@@ -1,0 +1,154 @@
+================================================================================
+empty definition
+================================================================================
+definition user {}
+--------------------------------------------------------------------------------
+(source_file
+	(object_definition name: (identifier)))
+
+================================================================================
+empty definition with prefix
+================================================================================
+definition namespaced/user {}
+--------------------------------------------------------------------------------
+(source_file
+	(object_definition name: (identifier)))
+
+================================================================================
+empty definition with comment
+================================================================================
+definition user { /* comment */ }
+--------------------------------------------------------------------------------
+(source_file
+	(object_definition name: (identifier) (comment)))
+
+================================================================================
+definition with multi-line docstring
+================================================================================
+/**
+ * user represents a user that can be granted role(s)
+ */
+definition user {}
+--------------------------------------------------------------------------------
+(source_file
+	(comment)
+	(object_definition name: (identifier)))
+
+================================================================================
+definition with single line docstring
+================================================================================
+// user represents a user that can be granted role(s)
+definition user {}
+--------------------------------------------------------------------------------
+(source_file
+	(comment)
+	(object_definition name: (identifier)))
+
+================================================================================
+two empty definitions
+================================================================================
+definition user {}
+definition document {}
+--------------------------------------------------------------------------------
+(source_file
+	(object_definition name: (identifier))
+	(object_definition name: (identifier)))
+
+================================================================================
+definition with single userset relation
+================================================================================
+definition user {}
+definition document {
+  relation creator: user
+}
+--------------------------------------------------------------------------------
+(source_file
+	(object_definition name: (identifier))
+	(object_definition
+		name: (identifier)
+		body: (relation
+			name: (identifier)
+			expr: (relation_expr
+			(unary_relation_expr (userset (identifier)))))))
+
+================================================================================
+definition with wildcard relation
+================================================================================
+definition user {}
+definition document {
+  relation creator: user:*
+}
+--------------------------------------------------------------------------------
+(source_file
+	(object_definition name: (identifier))
+	(object_definition
+		name: (identifier)
+		body: (relation
+			name: (identifier)
+			expr: (relation_expr (unary_relation_expr (userset
+				(wildcard_userset (identifier))))))))
+
+================================================================================
+definition with reference relation
+================================================================================
+definition user {}
+definition group {
+  relation members: user
+}
+definition document {
+  relation creator: group#member
+}
+--------------------------------------------------------------------------------
+(source_file
+	(object_definition name: (identifier))
+	(object_definition
+		name: (identifier)
+		body: (relation
+			name: (identifier)
+			expr: (relation_expr (unary_relation_expr (userset (identifier))))))
+	(object_definition
+		name: (identifier)
+		body: (relation
+			name: (identifier)
+			expr: (relation_expr (unary_relation_expr
+				(reference_userset (identifier) (identifier)))))))
+
+================================================================================
+definition with mutli-userset relation (2)
+================================================================================
+definition user {}
+definition document {
+  relation creator: user | user:*
+}
+--------------------------------------------------------------------------------
+(source_file
+	(object_definition name: (identifier))
+	(object_definition
+		name: (identifier)
+		body: (relation
+			name: (identifier)
+			expr: (relation_expr (binary_relation_expr
+				(relation_expr (unary_relation_expr (userset (identifier))))
+				(relation_expr (unary_relation_expr (userset (wildcard_userset (identifier))))))))))
+
+================================================================================
+definition with mutli-userset relation (3)
+================================================================================
+definition bot {}
+definition user {}
+definition document {
+  relation creator: user | user:* | bot
+}
+--------------------------------------------------------------------------------
+(source_file
+	(object_definition name: (identifier))
+	(object_definition name: (identifier))
+	(object_definition
+		name: (identifier)
+		body: (relation
+			name: (identifier)
+			expr: (relation_expr (binary_relation_expr
+				(relation_expr (binary_relation_expr
+					(relation_expr (unary_relation_expr (userset (identifier))))
+					(relation_expr (unary_relation_expr (userset (wildcard_userset (identifier)))))))
+				(relation_expr (unary_relation_expr (userset (identifier)))))))))

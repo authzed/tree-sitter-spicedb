@@ -1,0 +1,23 @@
+name: Test
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - "*"
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - uses: bahmutov/npm-install@v1
+      - name: Generate grammar
+        run: npm run generate
+      - name: Verify generation
+        uses: "chainguard-dev/actions/nodiff@main"
+        with:
+          fixup-command: "npm run generate"
+      - name: Test corpus
+        run: npm run test

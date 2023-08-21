@@ -1,0 +1,19 @@
+{
+  "name": "tree-sitter-spicedb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bindings/node",
+  "scripts": {
+    "test": "./node_modules/.bin/tree-sitter test",
+    "generate": "./node_modules/.bin/tree-sitter generate",
+    "lint": "eslint grammar.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.47.0",
+    "eslint-config-google": "^0.14.0",
+    "tree-sitter-cli": "^0.20.8"
+  }
+}

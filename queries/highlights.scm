@@ -17,7 +17,10 @@
 ] @operator
 
 [
- "nil"
+  "nil"
+  "*"
 ] @constant.builtin
 
 (comment) @comment
+(type_identifier) @type
+(field_identifier) @property

@@ -44,16 +44,24 @@ module.exports = grammar({
       '}',
     ),
 
+    userset: $ => choice($.relation_identifier, $.wildcard_userset, $.computed_userset),
+    wildcard_userset: $ => seq($.object_identifier, ':', '*'),
+    reference_userset: $ => seq($.object_identifier, '#', $.relation_identifier),
+    computed_userset: $ => seq($.object_identifier, '->', $.relation_identifier),
+
     relation: $ => seq(
       'relation',
       field('name', $.relation_identifier),
       ':',
       field('expr', $.relation_expr),
     ),
+    relation_expr: $ => choice($.unary_relation_expr, $.binary_relation_expr),
+    unary_relation_expr: $ => prec.left(2, choice($.userset, $.reference_userset)),
+    binary_relation_expr: $ => prec.left(1, seq($.relation_expr, '|', $.relation_expr)),
 
     permission: $ => seq(
       'permission',
-      field('name', $.identifier),
+      field('name', $.relation_identifier),
       '=',
       field('expr', $.permission_expr),
     ),
@@ -61,14 +69,5 @@ module.exports = grammar({
     permission_expr: $ => choice("nil", $.unary_permission_expr, $.binary_permission_expr),
     unary_permission_expr: $ => prec.left(2, $.userset),
     binary_permission_expr: $ => prec.left(1, seq($.permission_expr, choice('+', '-', '&'), $.permission_expr)),
-
-    userset: $ => choice($.identifier, $.wildcard_userset, $.computed_userset),
-    wildcard_userset: $ => seq($.identifier, ':', '*'),
-    reference_userset: $ => seq($.identifier, '#', $.identifier),
-    computed_userset: $ => seq($.identifier, '->', $.identifier),
-
-    relation_expr: $ => choice($.unary_relation_expr, $.binary_relation_expr),
-    unary_relation_expr: $ => prec.left(2, choice($.userset, $.reference_userset)),
-    binary_relation_expr: $ => prec.left(1, seq($.relation_expr, '|', $.relation_expr)),
   },
 });

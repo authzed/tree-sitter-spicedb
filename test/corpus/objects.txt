@@ -69,7 +69,7 @@ definition document {
 		body: (relation
 			name: (field_identifier)
 			expr: (relation_expr (unary_relation_expr
-				(userset (identifier)))))))
+				(userset (field_identifier)))))))
 
 ================================================================================
 definition with wildcard relation
@@ -86,7 +86,7 @@ definition document {
 		body: (relation
 			name: (field_identifier)
 			expr: (relation_expr (unary_relation_expr
-				(userset (wildcard_userset (identifier))))))))
+				(userset (wildcard_userset (type_identifier))))))))
 
 ================================================================================
 definition with reference relation
@@ -105,13 +105,13 @@ definition document {
 		name: (type_identifier)
 		body: (relation
 			name: (field_identifier)
-			expr: (relation_expr (unary_relation_expr (userset (identifier))))))
+			expr: (relation_expr (unary_relation_expr (userset (field_identifier))))))
 	(object_definition
 		name: (type_identifier)
 		body: (relation
 			name: (field_identifier)
 			expr: (relation_expr (unary_relation_expr
-				(reference_userset (identifier) (identifier)))))))
+				(reference_userset (type_identifier) (field_identifier)))))))
 
 ================================================================================
 definition with mutli-userset relation (2)
@@ -128,8 +128,8 @@ definition document {
 		body: (relation
 			name: (field_identifier)
 			expr: (relation_expr (binary_relation_expr
-				(relation_expr (unary_relation_expr (userset (identifier))))
-				(relation_expr (unary_relation_expr (userset (wildcard_userset (identifier))))))))))
+				(relation_expr (unary_relation_expr (userset (field_identifier))))
+				(relation_expr (unary_relation_expr (userset (wildcard_userset (type_identifier))))))))))
 
 ================================================================================
 definition with mutli-userset relation (3)
@@ -149,6 +149,6 @@ definition document {
 			name: (field_identifier)
 			expr: (relation_expr (binary_relation_expr
 				(relation_expr (binary_relation_expr
-					(relation_expr (unary_relation_expr (userset (identifier))))
-					(relation_expr (unary_relation_expr (userset (wildcard_userset (identifier)))))))
-				(relation_expr (unary_relation_expr (userset (identifier)))))))))
+					(relation_expr (unary_relation_expr (userset (field_identifier))))
+					(relation_expr (unary_relation_expr (userset (wildcard_userset (type_identifier)))))))
+				(relation_expr (unary_relation_expr (userset (field_identifier)))))))))

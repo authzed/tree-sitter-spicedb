@@ -14,6 +14,11 @@ module.exports = grammar({
 
   word: $ => $.identifier,
 
+  inline: $ => [
+    $.object_identifier,
+    $.relation_identifier,
+  ],
+
   rules: {
     source_file: $ => repeat($._top_level),
     _top_level: $ => choice($.object_definition, $.comment),
@@ -28,10 +33,12 @@ module.exports = grammar({
     )),
 
     identifier: _ => RegExp('([a-z][a-z0-9_]{1,62}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]'),
+    object_identifier: $ => alias($.identifier, $.type_identifier),
+    relation_identifier: $ => alias($.identifier, $.field_identifier),
 
     object_definition: $ => seq(
       'definition',
-      field('name', $.identifier),
+      field('name', $.object_identifier),
       '{',
       optional(field('body', repeat(choice($.relation, $.permission)))),
       '}',
@@ -39,7 +46,7 @@ module.exports = grammar({
 
     relation: $ => seq(
       'relation',
-      field('name', $.identifier),
+      field('name', $.relation_identifier),
       ':',
       field('expr', $.relation_expr),
     ),
@@ -51,7 +58,7 @@ module.exports = grammar({
       field('expr', $.permission_expr),
     ),
 
-    permission_expr: $ => choice($.unary_permission_expr, $.binary_permission_expr),
+    permission_expr: $ => choice("nil", $.unary_permission_expr, $.binary_permission_expr),
     unary_permission_expr: $ => prec.left(2, $.userset),
     binary_permission_expr: $ => prec.left(1, seq($.permission_expr, choice('+', '-', '&'), $.permission_expr)),
 

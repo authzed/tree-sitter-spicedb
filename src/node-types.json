@@ -67,7 +67,7 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "type_identifier",
             "named": true
           }
         ]
@@ -106,7 +106,7 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "binary_permission_expr",
@@ -153,7 +153,7 @@
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "field_identifier",
             "named": true
           }
         ]
@@ -311,8 +311,16 @@
     "named": false
   },
   {
+    "type": "field_identifier",
+    "named": true
+  },
+  {
     "type": "identifier",
     "named": true
+  },
+  {
+    "type": "nil",
+    "named": false
   },
   {
     "type": "permission",
@@ -321,6 +329,10 @@
   {
     "type": "relation",
     "named": false
+  },
+  {
+    "type": "type_identifier",
+    "named": true
   },
   {
     "type": "{",

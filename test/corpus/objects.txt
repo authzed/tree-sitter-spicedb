@@ -4,7 +4,7 @@ empty definition
 definition user {}
 --------------------------------------------------------------------------------
 (source_file
-	(object_definition name: (identifier)))
+	(object_definition name: (type_identifier)))
 
 ================================================================================
 empty definition with prefix
@@ -12,7 +12,7 @@ empty definition with prefix
 definition namespaced/user {}
 --------------------------------------------------------------------------------
 (source_file
-	(object_definition name: (identifier)))
+	(object_definition name: (type_identifier)))
 
 ================================================================================
 empty definition with comment
@@ -20,7 +20,7 @@ empty definition with comment
 definition user { /* comment */ }
 --------------------------------------------------------------------------------
 (source_file
-	(object_definition name: (identifier) (comment)))
+	(object_definition name: (type_identifier) (comment)))
 
 ================================================================================
 definition with multi-line docstring
@@ -32,7 +32,7 @@ definition user {}
 --------------------------------------------------------------------------------
 (source_file
 	(comment)
-	(object_definition name: (identifier)))
+	(object_definition name: (type_identifier)))
 
 ================================================================================
 definition with single line docstring
@@ -42,7 +42,7 @@ definition user {}
 --------------------------------------------------------------------------------
 (source_file
 	(comment)
-	(object_definition name: (identifier)))
+	(object_definition name: (type_identifier)))
 
 ================================================================================
 two empty definitions
@@ -51,8 +51,8 @@ definition user {}
 definition document {}
 --------------------------------------------------------------------------------
 (source_file
-	(object_definition name: (identifier))
-	(object_definition name: (identifier)))
+	(object_definition name: (type_identifier))
+	(object_definition name: (type_identifier)))
 
 ================================================================================
 definition with single userset relation
@@ -63,13 +63,13 @@ definition document {
 }
 --------------------------------------------------------------------------------
 (source_file
-	(object_definition name: (identifier))
+	(object_definition name: (type_identifier))
 	(object_definition
-		name: (identifier)
+		name: (type_identifier)
 		body: (relation
-			name: (identifier)
-			expr: (relation_expr
-			(unary_relation_expr (userset (identifier)))))))
+			name: (field_identifier)
+			expr: (relation_expr (unary_relation_expr
+				(userset (identifier)))))))
 
 ================================================================================
 definition with wildcard relation
@@ -80,13 +80,13 @@ definition document {
 }
 --------------------------------------------------------------------------------
 (source_file
-	(object_definition name: (identifier))
+	(object_definition name: (type_identifier))
 	(object_definition
-		name: (identifier)
+		name: (type_identifier)
 		body: (relation
-			name: (identifier)
-			expr: (relation_expr (unary_relation_expr (userset
-				(wildcard_userset (identifier))))))))
+			name: (field_identifier)
+			expr: (relation_expr (unary_relation_expr
+				(userset (wildcard_userset (identifier))))))))
 
 ================================================================================
 definition with reference relation
@@ -100,16 +100,16 @@ definition document {
 }
 --------------------------------------------------------------------------------
 (source_file
-	(object_definition name: (identifier))
+	(object_definition name: (type_identifier))
 	(object_definition
-		name: (identifier)
+		name: (type_identifier)
 		body: (relation
-			name: (identifier)
+			name: (field_identifier)
 			expr: (relation_expr (unary_relation_expr (userset (identifier))))))
 	(object_definition
-		name: (identifier)
+		name: (type_identifier)
 		body: (relation
-			name: (identifier)
+			name: (field_identifier)
 			expr: (relation_expr (unary_relation_expr
 				(reference_userset (identifier) (identifier)))))))
 
@@ -122,11 +122,11 @@ definition document {
 }
 --------------------------------------------------------------------------------
 (source_file
-	(object_definition name: (identifier))
+	(object_definition name: (type_identifier))
 	(object_definition
-		name: (identifier)
+		name: (type_identifier)
 		body: (relation
-			name: (identifier)
+			name: (field_identifier)
 			expr: (relation_expr (binary_relation_expr
 				(relation_expr (unary_relation_expr (userset (identifier))))
 				(relation_expr (unary_relation_expr (userset (wildcard_userset (identifier))))))))))
@@ -141,12 +141,12 @@ definition document {
 }
 --------------------------------------------------------------------------------
 (source_file
-	(object_definition name: (identifier))
-	(object_definition name: (identifier))
+	(object_definition name: (type_identifier))
+	(object_definition name: (type_identifier))
 	(object_definition
-		name: (identifier)
+		name: (type_identifier)
 		body: (relation
-			name: (identifier)
+			name: (field_identifier)
 			expr: (relation_expr (binary_relation_expr
 				(relation_expr (binary_relation_expr
 					(relation_expr (unary_relation_expr (userset (identifier))))

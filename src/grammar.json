@@ -64,6 +64,24 @@
       "type": "PATTERN",
       "value": "([a-z][a-z0-9_]{1,62}[a-z0-9]\\/)*[a-z][a-z0-9_]{1,62}[a-z0-9]"
     },
+    "object_identifier": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "identifier"
+      },
+      "named": true,
+      "value": "type_identifier"
+    },
+    "relation_identifier": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "identifier"
+      },
+      "named": true,
+      "value": "field_identifier"
+    },
     "object_definition": {
       "type": "SEQ",
       "members": [
@@ -76,7 +94,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "object_identifier"
           }
         },
         {
@@ -129,7 +147,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "identifier"
+            "name": "relation_identifier"
           }
         },
         {
@@ -178,6 +196,10 @@
     "permission_expr": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "STRING",
+          "value": "nil"
+        },
         {
           "type": "SYMBOL",
           "name": "unary_permission_expr"
@@ -363,7 +385,10 @@
   "conflicts": [],
   "precedences": [],
   "externals": [],
-  "inline": [],
+  "inline": [
+    "object_identifier",
+    "relation_identifier"
+  ],
   "supertypes": []
 }
 

@@ -152,3 +152,39 @@ definition document {
 					(relation_expr (unary_relation_expr (userset (field_identifier))))
 					(relation_expr (unary_relation_expr (userset (wildcard_userset (type_identifier)))))))
 				(relation_expr (unary_relation_expr (userset (field_identifier)))))))))
+
+================================================================================
+definition with nil permission
+================================================================================
+definition document {
+  permission write = nil
+}
+--------------------------------------------------------------------------------
+(source_file
+	(object_definition
+		name: (type_identifier)
+		body: (permission
+			name: (field_identifier)
+			expr: (permission_expr))))
+
+================================================================================
+definition with single userset permission
+================================================================================
+definition user {}
+definition document {
+  relation creator: user
+  permission write = creator
+}
+--------------------------------------------------------------------------------
+(source_file
+	(object_definition name: (type_identifier))
+	(object_definition
+		name: (type_identifier)
+		body: (relation
+			name: (field_identifier)
+			expr: (relation_expr (unary_relation_expr
+				(userset (field_identifier)))))
+		body: (permission
+			name: (field_identifier)
+			expr: (permission_expr (unary_permission_expr
+				(userset (field_identifier))))))) 

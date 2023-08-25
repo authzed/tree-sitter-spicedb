@@ -17,6 +17,7 @@ module.exports = grammar({
   inline: $ => [
     $.object_identifier,
     $.relation_identifier,
+    $.permission_identifier,
   ],
 
   rules: {
@@ -35,6 +36,7 @@ module.exports = grammar({
     identifier: _ => RegExp('([a-z][a-z0-9_]{1,62}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]'),
     object_identifier: $ => alias($.identifier, $.type_identifier),
     relation_identifier: $ => alias($.identifier, $.field_identifier),
+    permission_identifier: $ => alias($.identifier, $.field_identifier),
 
     object_definition: $ => seq(
       'definition',
@@ -61,7 +63,7 @@ module.exports = grammar({
 
     permission: $ => seq(
       'permission',
-      field('name', $.relation_identifier),
+      field('name', $.permission_identifier),
       '=',
       field('expr', $.permission_expr),
     ),

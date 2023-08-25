@@ -82,6 +82,15 @@
       "named": true,
       "value": "field_identifier"
     },
+    "permission_identifier": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "identifier"
+      },
+      "named": true,
+      "value": "field_identifier"
+    },
     "object_definition": {
       "type": "SEQ",
       "members": [
@@ -295,7 +304,7 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "relation_identifier"
+            "name": "permission_identifier"
           }
         },
         {
@@ -387,7 +396,8 @@
   "externals": [],
   "inline": [
     "object_identifier",
-    "relation_identifier"
+    "relation_identifier",
+    "permission_identifier"
   ],
   "supertypes": []
 }

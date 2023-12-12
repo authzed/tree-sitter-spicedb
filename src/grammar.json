@@ -18,6 +18,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "caveat_definition"
+        },
+        {
+          "type": "SYMBOL",
           "name": "comment"
         }
       ]
@@ -89,7 +93,34 @@
         "name": "identifier"
       },
       "named": true,
-      "value": "field_identifier"
+      "value": "method_identifier"
+    },
+    "caveat_identifier": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "identifier"
+      },
+      "named": true,
+      "value": "func_identifier"
+    },
+    "parameter_identifier": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "identifier"
+      },
+      "named": true,
+      "value": "cel_variable_identifier"
+    },
+    "parameter_type_identifier": {
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "identifier"
+      },
+      "named": true,
+      "value": "cel_type_identifier"
     },
     "object_definition": {
       "type": "SEQ",
@@ -144,24 +175,41 @@
         }
       ]
     },
-    "userset": {
-      "type": "CHOICE",
+    "relation_type": {
+      "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "relation_identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "object_identifier"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "wildcard_type"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "reference_type"
+            }
+          ]
         },
         {
-          "type": "SYMBOL",
-          "name": "wildcard_userset"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "computed_userset"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "caveat"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
-    "wildcard_userset": {
+    "wildcard_type": {
       "type": "SEQ",
       "members": [
         {
@@ -178,7 +226,7 @@
         }
       ]
     },
-    "reference_userset": {
+    "reference_type": {
       "type": "SEQ",
       "members": [
         {
@@ -195,12 +243,38 @@
         }
       ]
     },
+    "caveat": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "with"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "caveat_identifier"
+        }
+      ]
+    },
+    "userset": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "relation_identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "computed_userset"
+        }
+      ]
+    },
     "computed_userset": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "object_identifier"
+          "name": "relation_identifier"
         },
         {
           "type": "STRING",
@@ -258,17 +332,8 @@
       "type": "PREC_LEFT",
       "value": 2,
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "userset"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "reference_userset"
-          }
-        ]
+        "type": "SYMBOL",
+        "name": "relation_type"
       }
     },
     "binary_relation_expr": {
@@ -379,6 +444,125 @@
           }
         ]
       }
+    },
+    "caveat_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "caveat"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "caveat_identifier"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "parameters",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "parameter"
+                  },
+                  {
+                    "type": "REPEAT",
+                    "content": {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": ","
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "parameter"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "expr",
+          "content": {
+            "type": "SYMBOL",
+            "name": "caveat_expr"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "parameter": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "parameter_identifier"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "type",
+            "content": {
+              "type": "SYMBOL",
+              "name": "parameter_type_identifier"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "caveat_expr": {
+      "type": "SYMBOL",
+      "name": "identifier"
     }
   },
   "extras": [
@@ -397,7 +581,8 @@
   "inline": [
     "object_identifier",
     "relation_identifier",
-    "permission_identifier"
+    "permission_identifier",
+    "caveat_identifier"
   ],
   "supertypes": []
 }

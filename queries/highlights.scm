@@ -1,10 +1,24 @@
 ; highlights.scm
 
 [
+  "definition"
+  "caveat"
   "permission"
   "relation"
-  "definition"
+  "nil"
 ] @keyword
+
+[
+  ","
+  ":"
+] @punctuation.delimiter
+
+[
+  "("
+  ")"
+  "{"
+  "}"
+] @punctuation.bracket
 
 [
   "|"
@@ -15,6 +29,7 @@
   "->"
   "="
 ] @operator
+("with") @keyword.operator
 
 [
   "nil"
@@ -23,4 +38,10 @@
 
 (comment) @comment
 (type_identifier) @type
+(cel_type_identifier) @type
+(cel_variable_identifier) @variable.parameter
 (field_identifier) @property
+[
+  (func_identifier)
+  (method_identifier)
+] @function.method

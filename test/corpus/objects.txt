@@ -69,7 +69,7 @@ definition document {
 		body: (relation
 			name: (field_identifier)
 			expr: (relation_expr (unary_relation_expr
-				(userset (field_identifier)))))))
+				(relation_type (type_identifier)))))))
 
 ================================================================================
 definition with wildcard relation
@@ -86,7 +86,7 @@ definition document {
 		body: (relation
 			name: (field_identifier)
 			expr: (relation_expr (unary_relation_expr
-				(userset (wildcard_userset (type_identifier))))))))
+				(relation_type (wildcard_type (type_identifier))))))))
 
 ================================================================================
 definition with reference relation
@@ -105,16 +105,18 @@ definition document {
 		name: (type_identifier)
 		body: (relation
 			name: (field_identifier)
-			expr: (relation_expr (unary_relation_expr (userset (field_identifier))))))
+			expr: (relation_expr (unary_relation_expr (relation_type (type_identifier))))))
 	(object_definition
 		name: (type_identifier)
 		body: (relation
 			name: (field_identifier)
 			expr: (relation_expr (unary_relation_expr
-				(reference_userset (type_identifier) (field_identifier)))))))
+				(relation_type (reference_type
+					(type_identifier)
+					(field_identifier))))))))
 
 ================================================================================
-definition with mutli-userset relation (2)
+definition with multi-userset relation (2)
 ================================================================================
 definition user {}
 definition document {
@@ -128,11 +130,13 @@ definition document {
 		body: (relation
 			name: (field_identifier)
 			expr: (relation_expr (binary_relation_expr
-				(relation_expr (unary_relation_expr (userset (field_identifier))))
-				(relation_expr (unary_relation_expr (userset (wildcard_userset (type_identifier))))))))))
+				(relation_expr (unary_relation_expr (relation_type
+					(type_identifier))))
+				(relation_expr (unary_relation_expr (relation_type
+					(wildcard_type (type_identifier))))))))))
 
 ================================================================================
-definition with mutli-userset relation (3)
+definition with multi-userset relation (3)
 ================================================================================
 definition bot {}
 definition user {}
@@ -149,9 +153,9 @@ definition document {
 			name: (field_identifier)
 			expr: (relation_expr (binary_relation_expr
 				(relation_expr (binary_relation_expr
-					(relation_expr (unary_relation_expr (userset (field_identifier))))
-					(relation_expr (unary_relation_expr (userset (wildcard_userset (type_identifier)))))))
-				(relation_expr (unary_relation_expr (userset (field_identifier)))))))))
+					(relation_expr (unary_relation_expr (relation_type (type_identifier))))
+					(relation_expr (unary_relation_expr (relation_type (wildcard_type (type_identifier)))))))
+				(relation_expr (unary_relation_expr (relation_type (type_identifier)))))))))
 
 ================================================================================
 definition with nil permission
@@ -164,7 +168,7 @@ definition document {
 	(object_definition
 		name: (type_identifier)
 		body: (permission
-			name: (field_identifier)
+			name: (method_identifier)
 			expr: (permission_expr))))
 
 ================================================================================
@@ -183,8 +187,8 @@ definition document {
 		body: (relation
 			name: (field_identifier)
 			expr: (relation_expr (unary_relation_expr
-				(userset (field_identifier)))))
+				(relation_type (type_identifier)))))
 		body: (permission
-			name: (field_identifier)
+			name: (method_identifier)
 			expr: (permission_expr (unary_permission_expr
 				(userset (field_identifier))))))) 

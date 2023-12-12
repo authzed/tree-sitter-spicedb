@@ -18,11 +18,12 @@ module.exports = grammar({
     $.object_identifier,
     $.relation_identifier,
     $.permission_identifier,
+    $.caveat_identifier,
   ],
 
   rules: {
     source_file: $ => repeat($._top_level),
-    _top_level: $ => choice($.object_definition, $.comment),
+    _top_level: $ => choice($.object_definition, $.caveat_definition, $.comment),
 
     comment: _ => token(choice(
       seq('//', /.*/),
@@ -36,7 +37,11 @@ module.exports = grammar({
     identifier: _ => RegExp('([a-z][a-z0-9_]{1,62}[a-z0-9]/)*[a-z][a-z0-9_]{1,62}[a-z0-9]'),
     object_identifier: $ => alias($.identifier, $.type_identifier),
     relation_identifier: $ => alias($.identifier, $.field_identifier),
-    permission_identifier: $ => alias($.identifier, $.field_identifier),
+    permission_identifier: $ => alias($.identifier, $.method_identifier),
+
+    caveat_identifier: $ => alias($.identifier, $.func_identifier),
+    parameter_identifier: $ => alias($.identifier, $.cel_variable_identifier),
+    parameter_type_identifier: $ => alias($.identifier, $.cel_type_identifier),
 
     object_definition: $ => seq(
       'definition',
@@ -46,10 +51,19 @@ module.exports = grammar({
       '}',
     ),
 
-    userset: $ => choice($.relation_identifier, $.wildcard_userset, $.computed_userset),
-    wildcard_userset: $ => seq($.object_identifier, ':', '*'),
-    reference_userset: $ => seq($.object_identifier, '#', $.relation_identifier),
-    computed_userset: $ => seq($.object_identifier, '->', $.relation_identifier),
+    relation_type: $ => seq(
+      choice($.object_identifier, $.wildcard_type, $.reference_type),
+      optional($.caveat),
+    ),
+    wildcard_type: $ => seq($.object_identifier, ':', '*'),
+    reference_type: $ => seq($.object_identifier, '#', $.relation_identifier),
+    caveat: $ => seq(
+      'with',
+      $.caveat_identifier,
+    ),
+
+    userset: $ => choice($.relation_identifier, $.computed_userset),
+    computed_userset: $ => seq($.relation_identifier, '->', $.relation_identifier),
 
     relation: $ => seq(
       'relation',
@@ -58,7 +72,7 @@ module.exports = grammar({
       field('expr', $.relation_expr),
     ),
     relation_expr: $ => choice($.unary_relation_expr, $.binary_relation_expr),
-    unary_relation_expr: $ => prec.left(2, choice($.userset, $.reference_userset)),
+    unary_relation_expr: $ => prec.left(2, $.relation_type),
     binary_relation_expr: $ => prec.left(1, seq($.relation_expr, '|', $.relation_expr)),
 
     permission: $ => seq(
@@ -67,9 +81,26 @@ module.exports = grammar({
       '=',
       field('expr', $.permission_expr),
     ),
-
     permission_expr: $ => choice("nil", $.unary_permission_expr, $.binary_permission_expr),
     unary_permission_expr: $ => prec.left(2, $.userset),
     binary_permission_expr: $ => prec.left(1, seq($.permission_expr, choice('+', '-', '&'), $.permission_expr)),
+
+    caveat_definition: $ => seq(
+      'caveat',
+      field('name', $.caveat_identifier),
+      '(',
+      field('parameters', optional(seq($.parameter, repeat(seq(',', $.parameter))))),
+      ')',
+      '{',
+      field('expr', $.caveat_expr),
+      '}',
+    ),
+    parameter: $ => prec.left(seq(
+      field('name', $.parameter_identifier),
+      field('type', $.parameter_type_identifier),
+      optional(','),
+    )),
+
+    caveat_expr: $ => $.identifier,
   },
 });

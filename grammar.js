@@ -81,7 +81,7 @@ module.exports = grammar({
       '=',
       field('expr', $.permission_expr),
     ),
-    permission_expr: $ => choice("nil", $.unary_permission_expr, $.binary_permission_expr),
+    permission_expr: $ => choice('nil', $.unary_permission_expr, $.binary_permission_expr),
     unary_permission_expr: $ => prec.left(2, $.userset),
     binary_permission_expr: $ => prec.left(1, seq($.permission_expr, choice('+', '-', '&'), $.permission_expr)),
 

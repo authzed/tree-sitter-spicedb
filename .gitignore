@@ -1,5 +1,4 @@
 node_modules/*
-pnpm-lock.yaml
 Cargo.lock
 target
 

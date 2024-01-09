@@ -2,7 +2,7 @@ name: Test
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
       - "*"
@@ -10,14 +10,22 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - uses: bahmutov/npm-install@v1
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          cache: pnpm
+      - name: Install
+        run: pnpm install
+      - name: ESLint
+        run: pnpm run lint
       - name: Generate grammar
-        run: npm run generate
+        run: pnpm run generate
       - name: Verify generation
         uses: "chainguard-dev/actions/nodiff@main"
         with:
           fixup-command: "npm run generate"
       - name: Test corpus
-        run: npm run test
+        run: pnpm run test

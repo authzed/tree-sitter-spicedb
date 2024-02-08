@@ -192,3 +192,18 @@ definition document {
 			name: (method_identifier)
 			expr: (permission_expr (unary_permission_expr
 				(userset (field_identifier))))))) 
+
+================================================================================
+basic caveat definition
+================================================================================
+caveat only_on_tuesday(day_of_week string) {
+	day_of_week == "tuesday"
+}
+--------------------------------------------------------------------------------
+(source_file
+	(caveat_definition
+		(func_identifier)
+		(parameter
+			(parameter_identifier (cel_variable_identifier))
+			(parameter_type_identifier (cel_type_identifier)))
+        (caveat_expr)))

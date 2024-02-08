@@ -101,6 +101,6 @@ module.exports = grammar({
       optional(','),
     )),
 
-    caveat_expr: $ => $.identifier,
+    caveat_expr: _ => /[^{}](.*)/,
   },
 });

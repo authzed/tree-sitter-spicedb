@@ -561,8 +561,8 @@
       }
     },
     "caveat_expr": {
-      "type": "SYMBOL",
-      "name": "identifier"
+      "type": "PATTERN",
+      "value": "[^{}](.*)"
     }
   },
   "extras": [

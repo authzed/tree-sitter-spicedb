@@ -562,7 +562,7 @@
     },
     "caveat_expr": {
       "type": "PATTERN",
-      "value": "[^{}](.*)"
+      "value": "([^}]+)*"
     }
   },
   "extras": [

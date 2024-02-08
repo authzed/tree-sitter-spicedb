@@ -207,3 +207,23 @@ caveat only_on_tuesday(day_of_week string) {
 			(parameter_identifier (cel_variable_identifier))
 			(parameter_type_identifier (cel_type_identifier)))
         (caveat_expr)))
+
+================================================================================
+caveat with registry cel expression
+================================================================================
+caveat only_on_tuesday(day_of_week string) {
+	object.spec.template.spec.containers.all(container,
+	  params.allowedRegistries.exists(registry,
+	    ((registry in ['docker.io', 'docker.io/library']) && !container.image.contains('/')) ||
+	    container.image.startsWith(registry)
+	  )
+	)
+}
+--------------------------------------------------------------------------------
+(source_file
+	(caveat_definition
+		(func_identifier)
+		(parameter
+			(parameter_identifier (cel_variable_identifier))
+			(parameter_type_identifier (cel_type_identifier)))
+        (caveat_expr)))

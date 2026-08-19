@@ -497,8 +497,17 @@
           "value": "#"
         },
         {
-          "type": "SYMBOL",
-          "name": "relation_identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "relation_identifier"
+            },
+            {
+              "type": "STRING",
+              "value": "..."
+            }
+          ]
         }
       ]
     },

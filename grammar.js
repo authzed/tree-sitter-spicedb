@@ -157,7 +157,7 @@ module.exports = grammar({
       'caveat',
       field('name', $.caveat_identifier),
       '(',
-      field('parameters', optional(seq($.parameter, repeat(seq(',', $.parameter))))),
+      field('parameters', seq($.parameter, repeat(seq(',', $.parameter)))),
       ')',
       '{',
       field('expr', $.caveat_expr),
@@ -166,7 +166,6 @@ module.exports = grammar({
     parameter: $ => prec.left(seq(
       field('name', $.parameter_identifier),
       field('type', $.parameter_type_identifier),
-      optional(','),
     )),
 
     caveat_expr: $ => repeat1(choice(/[^{}"']+/, $.caveat_string, $.caveat_object)),

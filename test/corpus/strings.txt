@@ -20,6 +20,12 @@ second" }
         (cel_variable_identifier))
       (parameter_type_identifier
         (cel_type_identifier)))
+    (caveat_expr
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace))
     (UNEXPECTED '\n')
     (identifier)
     (UNEXPECTED '\0')))

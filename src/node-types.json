@@ -141,7 +141,18 @@
   {
     "type": "import",
     "named": true,
-    "fields": {}
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "object_definition",
@@ -747,6 +758,10 @@
   },
   {
     "type": "self_expression",
+    "named": true
+  },
+  {
+    "type": "string_literal",
     "named": true
   },
   {

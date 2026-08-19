@@ -77,7 +77,12 @@ module.exports = grammar({
     ),
 
     use_flag: $ => seq('use', field('name', $.identifier)),
-    import: _ => seq('import', field('path', /"[^"\n]*"/)),
+    import: $ => seq('import', field('path', $.string_literal)),
+    string_literal: _ => token(choice(
+      /"[^"\n]*"/,
+      /'[^'\n]*'/,
+      /"""([^"\n]|"[^"\n]|""[^"\n]|\n)*"""/,
+    )),
 
     partial_definition: $ => seq(
       'partial',

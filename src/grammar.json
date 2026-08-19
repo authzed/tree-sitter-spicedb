@@ -343,11 +343,31 @@
           "type": "FIELD",
           "name": "path",
           "content": {
-            "type": "PATTERN",
-            "value": "\"[^\"\\n]*\""
+            "type": "SYMBOL",
+            "name": "string_literal"
           }
         }
       ]
+    },
+    "string_literal": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "\"[^\"\\n]*\""
+          },
+          {
+            "type": "PATTERN",
+            "value": "'[^'\\n]*'"
+          },
+          {
+            "type": "PATTERN",
+            "value": "\"\"\"([^\"\\n]|\"[^\"\\n]|\"\"[^\"\\n]|\\n)*\"\"\""
+          }
+        ]
+      }
     },
     "partial_definition": {
       "type": "SEQ",

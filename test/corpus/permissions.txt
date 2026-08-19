@@ -1,0 +1,69 @@
+================================================================================
+permission expression forms
+================================================================================
+definition resource {
+  permission grouped = (reader & writer) + self
+  permission arrow = parent.any(member).all(editor)->viewer
+  permission precedence = reader + writer & editor - banned
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (object_definition
+    name: (type_identifier)
+    body: (permission
+      name: (method_identifier)
+      expr: (permission_expr
+        (binary_permission_expr
+          (permission_expr
+            (unary_permission_expr
+              (parenthesized_permission_expression
+                (permission_expr
+                  (binary_permission_expr
+                    (permission_expr
+                      (unary_permission_expr
+                        (userset
+                          (field_identifier))))
+                    (permission_expr
+                      (unary_permission_expr
+                        (userset
+                          (field_identifier)))))))))
+          (permission_expr
+            (unary_permission_expr
+              (self_expression))))))
+    body: (permission
+      name: (method_identifier)
+      expr: (permission_expr
+        (unary_permission_expr
+          (userset
+            (arrow_expression
+              (arrow_expression
+                (arrow_expression
+                  (field_identifier)
+                  (field_identifier))
+                (field_identifier))
+              (field_identifier))))))
+    body: (permission
+      name: (method_identifier)
+      expr: (permission_expr
+        (binary_permission_expr
+          (permission_expr
+            (unary_permission_expr
+              (userset
+                (field_identifier))))
+          (permission_expr
+            (binary_permission_expr
+              (permission_expr
+                (unary_permission_expr
+                  (userset
+                    (field_identifier))))
+              (permission_expr
+                (binary_permission_expr
+                  (permission_expr
+                    (unary_permission_expr
+                      (userset
+                        (field_identifier))))
+                  (permission_expr
+                    (unary_permission_expr
+                      (userset
+                        (field_identifier)))))))))))))

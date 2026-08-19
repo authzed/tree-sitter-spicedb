@@ -82,8 +82,14 @@ module.exports = grammar({
       $.caveat_identifier,
     ),
 
-    userset: $ => choice($.relation_identifier, $.computed_userset),
-    computed_userset: $ => seq($.relation_identifier, '->', $.relation_identifier),
+    userset: $ => choice($.relation_identifier, $.arrow_expression),
+    arrow_expression: $ => prec.left(4, seq(
+      choice($.relation_identifier, $.arrow_expression),
+      choice(
+        seq('->', $.relation_identifier),
+        seq('.', choice('any', 'all'), '(', $.relation_identifier, ')'),
+      ),
+    )),
 
     relation: $ => seq(
       'relation',
@@ -102,8 +108,18 @@ module.exports = grammar({
       field('expr', $.permission_expr),
     ),
     permission_expr: $ => choice('nil', $.unary_permission_expr, $.binary_permission_expr),
-    unary_permission_expr: $ => prec.left(2, $.userset),
-    binary_permission_expr: $ => prec.left(1, seq($.permission_expr, choice('+', '-', '&'), $.permission_expr)),
+    unary_permission_expr: $ => choice(
+      $.userset,
+      $.self_expression,
+      $.parenthesized_permission_expression,
+    ),
+    self_expression: _ => 'self',
+    parenthesized_permission_expression: $ => seq('(', $.permission_expr, ')'),
+    binary_permission_expr: $ => choice(
+      prec.left(1, seq($.permission_expr, '+', $.permission_expr)),
+      prec.left(2, seq($.permission_expr, '&', $.permission_expr)),
+      prec.left(3, seq($.permission_expr, '-', $.permission_expr)),
+    ),
 
     caveat_definition: $ => seq(
       'caveat',

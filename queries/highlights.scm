@@ -71,7 +71,5 @@
 (cel_type_identifier) @type
 (cel_variable_identifier) @variable.parameter
 (field_identifier) @variable.other.member
-[
-  (func_identifier)
-  (method_identifier)
-] @function.method
+(func_identifier) @function
+(method_identifier) @function.method

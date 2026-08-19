@@ -19,6 +19,7 @@ partial common {}
 // <- keyword
 
 caveat check(value string) {
+//     ^ function
 //                         ^ punctuation.bracket
   {"key": value}
 }
@@ -40,6 +41,7 @@ definition resource {
 //                  ^ keyword
 
   permission typed: user | group = viewer
+//           ^ function.method
 //                  ^ type
 //                         ^ type
 

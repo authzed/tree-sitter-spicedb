@@ -36,13 +36,15 @@ definition resource {
   (import
     path: (string_literal))
   (partial_definition
-    name: (type_identifier)
+    name: (type_identifier
+      (identifier))
     body: (relation
       name: (field_identifier)
       expr: (relation_expr
         (unary_relation_expr
           (relation_type
-            (type_identifier)))))
+            (type_identifier
+              (identifier))))))
     body: (permission
       name: (method_identifier)
       expr: (permission_expr
@@ -50,9 +52,11 @@ definition resource {
           (userset
             (field_identifier))))))
   (object_definition
-    name: (type_identifier))
+    name: (type_identifier
+      (identifier)))
   (object_definition
-    name: (type_identifier)
+    name: (type_identifier
+      (identifier))
     body: (partial_reference
       name: (identifier))))
 

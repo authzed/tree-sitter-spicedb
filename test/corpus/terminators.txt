@@ -9,15 +9,18 @@ definition user {}; definition document {
 
 (source_file
   (object_definition
-    name: (type_identifier))
+    name: (type_identifier
+      (identifier)))
   (object_definition
-    name: (type_identifier)
+    name: (type_identifier
+      (identifier))
     body: (relation
       name: (field_identifier)
       expr: (relation_expr
         (unary_relation_expr
           (relation_type
-            (type_identifier)))))
+            (type_identifier
+              (identifier))))))
     body: (permission
       name: (method_identifier)
       expr: (permission_expr
@@ -33,9 +36,11 @@ definition user {} definition document {}
 
 (source_file
   (object_definition
-    name: (type_identifier))
+    name: (type_identifier
+      (identifier)))
   (object_definition
-    name: (type_identifier)))
+    name: (type_identifier
+      (identifier))))
 
 ================================================================================
 newlines continue incomplete statements
@@ -56,7 +61,8 @@ caveat context(
 
 (source_file
   (object_definition
-    (type_identifier)
+    (type_identifier
+      (identifier))
     (relation
       (field_identifier)
       (relation_expr
@@ -64,12 +70,14 @@ caveat context(
           (relation_expr
             (unary_relation_expr
               (relation_type
-                (type_identifier))))
+                (type_identifier
+                  (identifier)))))
           (relation_expr
             (unary_relation_expr
               (relation_type
                 (reference_type
-                  (type_identifier)
+                  (type_identifier
+                    (identifier))
                   (field_identifier))))))))
     (permission
       (method_identifier)
@@ -84,7 +92,8 @@ caveat context(
               (userset
                 (field_identifier))))))))
   (caveat_definition
-    (func_identifier)
+    (func_identifier
+      (identifier))
     (parameter
       (parameter_identifier
         (cel_variable_identifier))
@@ -95,6 +104,8 @@ caveat context(
         (cel_variable_identifier))
       (parameter_type_identifier
         (cel_type_identifier)))
+    (ERROR
+      (UNEXPECTED '\n'))
     (caveat_expr
       (caveat_whitespace)
       (caveat_text)
@@ -117,15 +128,43 @@ definition invalid {
 
 (source_file
   (object_definition
-    (type_identifier)
+    (type_identifier
+      (identifier))
     (relation
       (field_identifier)
       (relation_expr
         (unary_relation_expr
           (relation_type
             (reference_type
-              (type_identifier)))))))
+              (type_identifier
+                (identifier))))))))
+  (object_definition
+    (type_identifier
+      (identifier))
+    (ERROR
+      (relation
+        (field_identifier)
+        (relation_expr
+          (unary_relation_expr
+            (relation_type
+              (reference_type
+                (type_identifier
+                  (identifier)))))))
+      (UNEXPECTED '\n'))))
+
+================================================================================
+newlines after predecessor tokens are invalid
+================================================================================
+use
+self
+definition
+resource {}
+import
+"path.zed"
+--------------------------------------------------------------------------------
+
+(source_file
   (ERROR
-    (UNEXPECTED 'd')
-    (UNEXPECTED 'v')
-    (UNEXPECTED 'g')))
+    (UNEXPECTED '\n')
+    (UNEXPECTED '\n')
+    (string_literal)))

@@ -13,21 +13,29 @@ definition aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa {}
 
 (source_file
   (object_definition
-    name: (type_identifier))
+    name: (type_identifier
+      (identifier)))
   (object_definition
-    name: (type_identifier))
+    name: (type_identifier
+      (identifier)))
   (object_definition
-    name: (type_identifier))
+    name: (type_identifier
+      (identifier)))
   (object_definition
-    name: (type_identifier))
+    name: (type_identifier
+      (identifier)))
   (object_definition
-    name: (type_identifier))
+    name: (type_identifier
+      (identifier)))
   (object_definition
-    name: (type_identifier))
+    name: (type_identifier
+      (identifier)))
   (object_definition
-    name: (type_identifier))
+    name: (type_identifier
+      (identifier)))
   (object_definition
-    name: (type_identifier)))
+    name: (type_identifier
+      (identifier))))
 
 ================================================================================
 symbols are not identifiers
@@ -39,7 +47,7 @@ definition 👤 {}
 (source_file
   (ERROR
     (UNEXPECTED 169)
-    (UNEXPECTED 'd')))
+    (UNEXPECTED '\n')))
 
 ================================================================================
 reserved keywords are not identifiers
@@ -52,8 +60,26 @@ caveat with(value string) { value == value }
 (source_file
   (ERROR
     (UNEXPECTED 'd')
-    (UNEXPECTED 'd')
-    (UNEXPECTED 'c')
+    (UNEXPECTED '\n')
+    (UNEXPECTED '\n')
     (UNEXPECTED 'v')
     (UNEXPECTED 'v')
     (UNEXPECTED 'v')))
+
+================================================================================
+qualified paths allow whitespace after slashes
+================================================================================
+definition foo / bar {}
+definition tenant/
+resource {}
+--------------------------------------------------------------------------------
+
+(source_file
+  (object_definition
+    (type_identifier
+      (identifier)
+      (identifier)))
+  (object_definition
+    (type_identifier
+      (identifier)
+      (identifier))))

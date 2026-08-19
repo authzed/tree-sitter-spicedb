@@ -188,7 +188,17 @@
   {
     "type": "func_identifier",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "identifier",
@@ -598,7 +608,17 @@
   {
     "type": "type_identifier",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "unary_permission_expr",
@@ -730,6 +750,10 @@
   },
   {
     "type": "...",
+    "named": false
+  },
+  {
+    "type": "/",
     "named": false
   },
   {

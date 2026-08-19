@@ -5,11 +5,17 @@ definition resource {
   permission view: user | organization = viewer
 }
 --------------------------------------------------------------------------------
+
 (source_file
   (object_definition
-    name: (type_identifier)
+    name: (type_identifier
+      (identifier))
     body: (permission
       name: (method_identifier)
-      type: (permission_type_annotation (identifier) (identifier))
-      expr: (permission_expr (unary_permission_expr
-        (userset (field_identifier)))))))
+      type: (permission_type_annotation
+        (identifier)
+        (identifier))
+      expr: (permission_expr
+        (unary_permission_expr
+          (userset
+            (field_identifier)))))))

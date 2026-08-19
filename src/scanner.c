@@ -9,7 +9,6 @@
 
 enum TokenType {
   IDENTIFIER,
-  QUALIFIED_IDENTIFIER,
   USE_SELF_FLAG,
   USE_EXPIRATION_FLAG,
   USE_PARTIAL_FLAG,
@@ -24,6 +23,8 @@ enum TokenType {
   PARTIAL_KEYWORD,
   IMPORT_KEYWORD,
   RELATION_ELLIPSIS,
+  PIPE,
+  SEMICOLON,
   NEWLINE,
   ERROR_SENTINEL,
 };
@@ -91,14 +92,6 @@ static bool is_reserved(const char *value) {
       !strcmp(value, "nil") || !strcmp(value, "with");
 }
 
-static bool is_enabled_keyword(const Scanner *scanner, const char *value) {
-  return (scanner->self_enabled && !strcmp(value, "self")) ||
-      (scanner->expiration_enabled && (!strcmp(value, "expiration") || !strcmp(value, "and"))) ||
-      (scanner->partial_enabled && !strcmp(value, "partial")) ||
-      (scanner->import_enabled && !strcmp(value, "import")) ||
-      (scanner->typechecking_enabled && !strcmp(value, "typechecking"));
-}
-
 static bool scan_segment(TSLexer *lexer, char *value, size_t size, bool *ascii) {
   size_t length = 0;
   *ascii = true;
@@ -118,19 +111,25 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
   if (valid_symbols[ERROR_SENTINEL]) return false;
   while (lexer->lookahead == ' ' || lexer->lookahead == '\t') lexer->advance(lexer, true);
   if (lexer->lookahead == '\r' || lexer->lookahead == '\n') {
-    if (valid_symbols[NEWLINE]) {
-      if (scanner->relation_ellipsis) return false;
-      int32_t first = lexer->lookahead;
-      lexer->advance(lexer, false);
-      if (first == '\r' && lexer->lookahead == '\n') lexer->advance(lexer, false);
-      scanner->relation_ellipsis = false;
-      lexer->result_symbol = NEWLINE;
-      return true;
-    }
-    do {
-      lexer->advance(lexer, true);
-    } while (lexer->lookahead == ' ' || lexer->lookahead == '\t' ||
-        lexer->lookahead == '\r' || lexer->lookahead == '\n');
+    if (!valid_symbols[NEWLINE] || scanner->relation_ellipsis) return false;
+    int32_t first = lexer->lookahead;
+    lexer->advance(lexer, false);
+    if (first == '\r' && lexer->lookahead == '\n') lexer->advance(lexer, false);
+    scanner->relation_ellipsis = false;
+    lexer->result_symbol = NEWLINE;
+    return true;
+  }
+  if (valid_symbols[PIPE] && lexer->lookahead == '|') {
+    lexer->advance(lexer, false);
+    scanner->relation_ellipsis = false;
+    lexer->result_symbol = PIPE;
+    return true;
+  }
+  if (valid_symbols[SEMICOLON] && lexer->lookahead == ';') {
+    lexer->advance(lexer, false);
+    scanner->relation_ellipsis = false;
+    lexer->result_symbol = SEMICOLON;
+    return true;
   }
   if (valid_symbols[RELATION_ELLIPSIS] && lexer->lookahead == '.') {
     for (unsigned i = 0; i < 3; i++) {
@@ -142,7 +141,7 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
     return true;
   }
   if (
-      (!valid_symbols[IDENTIFIER] && !valid_symbols[QUALIFIED_IDENTIFIER] &&
+      (!valid_symbols[IDENTIFIER] &&
        !valid_symbols[USE_SELF_FLAG] && !valid_symbols[USE_EXPIRATION_FLAG] &&
        !valid_symbols[USE_PARTIAL_FLAG] && !valid_symbols[USE_IMPORT_FLAG] &&
        !valid_symbols[USE_TYPECHECKING_FLAG] && !valid_symbols[DEFINITION_KEYWORD] &&
@@ -234,17 +233,7 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
   if (ascii && !strcmp(value, "typechecking") && scanner->typechecking_enabled) return false;
   if (ascii && is_reserved(value)) return false;
 
-  if (!valid_symbols[IDENTIFIER] && !valid_symbols[QUALIFIED_IDENTIFIER]) return false;
-
-  if (valid_symbols[QUALIFIED_IDENTIFIER]) {
-    while (lexer->lookahead == '/') {
-      lexer->advance(lexer, false);
-      if (!scan_segment(lexer, value, sizeof(value), &ascii) ||
-          (ascii && (is_reserved(value) || is_enabled_keyword(scanner, value)))) return false;
-    }
-    lexer->result_symbol = QUALIFIED_IDENTIFIER;
-  } else {
-    lexer->result_symbol = IDENTIFIER;
-  }
+  if (!valid_symbols[IDENTIFIER]) return false;
+  lexer->result_symbol = IDENTIFIER;
   return true;
 }

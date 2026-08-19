@@ -10,7 +10,9 @@ definition ns/resource {
 
 (source_file
   (object_definition
-    name: (type_identifier)
+    name: (type_identifier
+      (identifier)
+      (identifier))
     body: (relation
       name: (field_identifier)
       (ERROR
@@ -18,7 +20,8 @@ definition ns/resource {
       expr: (relation_expr
         (unary_relation_expr
           (relation_type
-            (type_identifier)))))
+            (type_identifier
+              (identifier))))))
     body: (permission
       name: (method_identifier)
       (ERROR

@@ -17,7 +17,8 @@ definition resource {
   (use_flag
     name: (identifier))
   (object_definition
-    name: (type_identifier)
+    name: (type_identifier
+      (identifier))
     body: (permission
       name: (method_identifier)
       expr: (permission_expr
@@ -44,7 +45,8 @@ use expiration
 
 (source_file
   (object_definition
-    (type_identifier))
+    (type_identifier
+      (identifier)))
   (ERROR
     (UNEXPECTED 'e')))
 
@@ -77,8 +79,13 @@ definition ns/typechecking {}
     (identifier))
   (ERROR
     (UNEXPECTED 't')
+    (UNEXPECTED '\n')
+    (UNEXPECTED 's')
+    (UNEXPECTED '\n')
     (UNEXPECTED 'd')
-    (UNEXPECTED 'd')
-    (UNEXPECTED 'd')
-    (UNEXPECTED 'd')
-    (UNEXPECTED 'd')))
+    (UNEXPECTED '\n')
+    (UNEXPECTED 'a')
+    (UNEXPECTED '\n')
+    (UNEXPECTED 'i')
+    (UNEXPECTED '\n')
+    (UNEXPECTED 't')))

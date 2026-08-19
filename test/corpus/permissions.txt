@@ -14,7 +14,8 @@ definition resource {
   (use_flag
     name: (identifier))
   (object_definition
-    name: (type_identifier)
+    name: (type_identifier
+      (identifier))
     body: (permission
       name: (method_identifier)
       expr: (permission_expr
@@ -100,7 +101,8 @@ definition resource {
 
 (source_file
   (object_definition
-    name: (type_identifier)
+    name: (type_identifier
+      (identifier))
     body: (permission
       name: (method_identifier)
       expr: (permission_expr

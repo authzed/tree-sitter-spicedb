@@ -971,17 +971,19 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     case 2:
       if (lookahead == '"') ADVANCE(62);
       if (lookahead != 0 &&
-          lookahead != '\n') ADVANCE(4);
+          lookahead != '\n' &&
+          lookahead != '\r') ADVANCE(3);
       END_STATE();
     case 3:
       if (lookahead == '"') ADVANCE(61);
       if (lookahead != 0 &&
-          lookahead != '\n') ADVANCE(26);
+          lookahead != '\n' &&
+          lookahead != '\r') ADVANCE(3);
       END_STATE();
     case 4:
       if (lookahead == '"') ADVANCE(61);
       if (lookahead != 0 &&
-          lookahead != '\n') ADVANCE(4);
+          lookahead != '\n') ADVANCE(26);
       END_STATE();
     case 5:
       if (lookahead == '"') ADVANCE(6);
@@ -997,12 +999,16 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     case 6:
       if (lookahead == '"') ADVANCE(82);
       if (lookahead == '\\') ADVANCE(25);
-      if (lookahead != 0) ADVANCE(7);
+      if (lookahead != 0 &&
+          lookahead != '\n' &&
+          lookahead != '\r') ADVANCE(7);
       END_STATE();
     case 7:
       if (lookahead == '"') ADVANCE(81);
       if (lookahead == '\\') ADVANCE(25);
-      if (lookahead != 0) ADVANCE(7);
+      if (lookahead != 0 &&
+          lookahead != '\n' &&
+          lookahead != '\r') ADVANCE(7);
       END_STATE();
     case 8:
       if (lookahead == '"') ADVANCE(81);
@@ -1010,7 +1016,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
           lookahead != '\n') ADVANCE(27);
       END_STATE();
     case 9:
-      if (lookahead == '"') ADVANCE(3);
+      if (lookahead == '"') ADVANCE(4);
       if (lookahead != 0 &&
           lookahead != '\n') ADVANCE(26);
       END_STATE();
@@ -1039,12 +1045,15 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
     case 12:
       if (lookahead == '\'') ADVANCE(61);
       if (lookahead != 0 &&
-          lookahead != '\n') ADVANCE(12);
+          lookahead != '\n' &&
+          lookahead != '\r') ADVANCE(12);
       END_STATE();
     case 13:
       if (lookahead == '\'') ADVANCE(81);
       if (lookahead == '\\') ADVANCE(24);
-      if (lookahead != 0) ADVANCE(13);
+      if (lookahead != 0 &&
+          lookahead != '\n' &&
+          lookahead != '\r') ADVANCE(13);
       END_STATE();
     case 14:
       if (lookahead == '*') ADVANCE(16);
@@ -1101,11 +1110,13 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 24:
       if (lookahead != 0 &&
-          lookahead != '\n') ADVANCE(13);
+          lookahead != '\n' &&
+          lookahead != '\r') ADVANCE(13);
       END_STATE();
     case 25:
       if (lookahead != 0 &&
-          lookahead != '\n') ADVANCE(7);
+          lookahead != '\n' &&
+          lookahead != '\r') ADVANCE(7);
       END_STATE();
     case 26:
       if (lookahead != 0 &&

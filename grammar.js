@@ -75,8 +75,8 @@ module.exports = grammar({
     use_flag: $ => seq('use', field('name', $.identifier)),
     import: $ => seq('import', field('path', $.string_literal)),
     string_literal: _ => token(choice(
-      /"[^"\n]*"/,
-      /'[^'\n]*'/,
+      /"[^"\r\n]*"/,
+      /'[^'\r\n]*'/,
       /"""([^"\n]|"[^"\n]|""[^"\n]|\n)*"""/,
     )),
 
@@ -176,8 +176,8 @@ module.exports = grammar({
     )),
     caveat_string: _ => token(choice(
       /"""([^"\n]|"[^"\n]|""[^"\n]|\n)*"""/,
-      /"([^"\\]|\\.)*"/,
-      /'([^'\\]|\\.)*'/,
+      /"([^"\\\r\n]|\\[^\r\n])*"/,
+      /'([^'\\\r\n]|\\[^\r\n])*'/,
     )),
     caveat_comment: _ => token(prec(1, choice(
       seq('//', /[^\r\n]*/),

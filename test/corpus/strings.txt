@@ -1,0 +1,25 @@
+================================================================================
+ordinary strings reject newlines
+================================================================================
+import "first
+second"
+caveat invalid(value string) { value == "first
+second" }
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR
+    (UNEXPECTED '\n'))
+  (ERROR
+    (identifier)
+    (UNEXPECTED '\n'))
+  (ERROR
+    (type_identifier)
+    (parameter
+      (parameter_identifier
+        (cel_variable_identifier))
+      (parameter_type_identifier
+        (cel_type_identifier)))
+    (UNEXPECTED '\n')
+    (identifier)
+    (UNEXPECTED '\0')))

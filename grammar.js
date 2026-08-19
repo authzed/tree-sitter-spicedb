@@ -113,8 +113,14 @@ module.exports = grammar({
     permission: $ => seq(
       'permission',
       field('name', $.permission_identifier),
+      optional(field('type', $.permission_type_annotation)),
       '=',
       field('expr', $.permission_expr),
+    ),
+    permission_type_annotation: $ => seq(
+      ':',
+      $.identifier,
+      repeat(seq('|', $.identifier)),
     ),
     permission_expr: $ => choice('nil', $.unary_permission_expr, $.binary_permission_expr),
     unary_permission_expr: $ => choice(

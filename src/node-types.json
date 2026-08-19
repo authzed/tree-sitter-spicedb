@@ -320,6 +320,16 @@
             "named": true
           }
         ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "permission_type_annotation",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -337,6 +347,21 @@
         },
         {
           "type": "unary_permission_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "permission_type_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]

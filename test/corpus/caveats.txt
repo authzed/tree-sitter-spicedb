@@ -50,16 +50,11 @@ caveat trailing(value int,) { true }
 --------------------------------------------------------------------------------
 
 (source_file
+  (ERROR
+    (type_identifier)
+    (UNEXPECTED 't'))
   (caveat_definition
     (func_identifier)
-    (ERROR
-      (ERROR)
-      (parameter
-        (parameter_identifier
-          (cel_variable_identifier))
-        (ERROR)
-        (parameter_type_identifier
-          (cel_type_identifier))))
     (parameter
       (parameter_identifier
         (cel_variable_identifier))

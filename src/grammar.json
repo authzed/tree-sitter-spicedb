@@ -1,6 +1,6 @@
 {
   "name": "spicedb",
-  "word": "identifier",
+  "word": "_identifier",
   "rules": {
     "source_file": {
       "type": "REPEAT",
@@ -103,26 +103,12 @@
       }
     },
     "identifier": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": -1,
-        "content": {
-          "type": "PATTERN",
-          "value": "[a-zA-Z0-9_\\u0080-\\uFFFF]+"
-        }
-      }
+      "type": "SYMBOL",
+      "name": "_identifier"
     },
     "qualified_identifier": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": -1,
-        "content": {
-          "type": "PATTERN",
-          "value": "[a-zA-Z0-9_\\u0080-\\uFFFF]+(\\/[a-zA-Z0-9_\\u0080-\\uFFFF]+)*"
-        }
-      }
+      "type": "SYMBOL",
+      "name": "_qualified_identifier"
     },
     "object_identifier": {
       "type": "ALIAS",
@@ -529,8 +515,8 @@
           "value": "with"
         },
         {
-          "type": "STRING",
-          "value": "expiration"
+          "type": "SYMBOL",
+          "name": "_expiration_keyword"
         }
       ]
     },
@@ -552,12 +538,12 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "STRING",
-                  "value": "and"
+                  "type": "SYMBOL",
+                  "name": "_and_keyword"
                 },
                 {
-                  "type": "STRING",
-                  "value": "expiration"
+                  "type": "SYMBOL",
+                  "name": "_expiration_keyword"
                 }
               ]
             },
@@ -804,7 +790,12 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_nil_keyword"
+          },
+          "named": false,
           "value": "nil"
         },
         {
@@ -835,8 +826,8 @@
       ]
     },
     "self_expression": {
-      "type": "STRING",
-      "value": "self"
+      "type": "SYMBOL",
+      "name": "_self_keyword"
     },
     "parenthesized_permission_expression": {
       "type": "SEQ",
@@ -1210,7 +1201,36 @@
   ],
   "conflicts": [],
   "precedences": [],
-  "externals": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "_identifier"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_qualified_identifier"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_self_keyword"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_expiration_keyword"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_and_keyword"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_nil_keyword"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_error_sentinel"
+    }
+  ],
   "inline": [
     "object_identifier",
     "relation_identifier",

@@ -7,13 +7,37 @@ definition _foo {}
 definition 1foo {}
 definition User {}
 definition 一级 {}
+definition 𐐀 {}
 definition aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa {}
 --------------------------------------------------------------------------------
+
 (source_file
-  (object_definition name: (type_identifier))
-  (object_definition name: (type_identifier))
-  (object_definition name: (type_identifier))
-  (object_definition name: (type_identifier))
-  (object_definition name: (type_identifier))
-  (object_definition name: (type_identifier))
-  (object_definition name: (type_identifier)))
+  (object_definition
+    name: (type_identifier))
+  (object_definition
+    name: (type_identifier))
+  (object_definition
+    name: (type_identifier))
+  (object_definition
+    name: (type_identifier))
+  (object_definition
+    name: (type_identifier))
+  (object_definition
+    name: (type_identifier))
+  (object_definition
+    name: (type_identifier))
+  (object_definition
+    name: (type_identifier)))
+
+================================================================================
+symbols are not identifiers
+================================================================================
+definition © {}
+definition 👤 {}
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR
+    (UNEXPECTED 169))
+  (ERROR
+    (UNEXPECTED 128100)))

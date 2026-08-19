@@ -166,7 +166,32 @@
     }
   },
   {
+    "type": "cel_type_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "cel_variable_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "expiration_trait",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "field_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "func_identifier",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "identifier",
     "named": true,
     "fields": {}
   },
@@ -185,6 +210,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "method_identifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "object_definition",
@@ -526,6 +556,11 @@
     }
   },
   {
+    "type": "self_expression",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "source_file",
     "named": true,
     "fields": {},
@@ -559,6 +594,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "type_identifier",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "unary_permission_expr",
@@ -725,10 +765,6 @@
     "named": false
   },
   {
-    "type": "and",
-    "named": false
-  },
-  {
     "type": "any",
     "named": false
   },
@@ -753,14 +789,6 @@
     "named": true
   },
   {
-    "type": "cel_type_identifier",
-    "named": true
-  },
-  {
-    "type": "cel_variable_identifier",
-    "named": true
-  },
-  {
     "type": "comment",
     "named": true
   },
@@ -769,28 +797,8 @@
     "named": false
   },
   {
-    "type": "expiration",
-    "named": false
-  },
-  {
-    "type": "field_identifier",
-    "named": true
-  },
-  {
-    "type": "func_identifier",
-    "named": true
-  },
-  {
-    "type": "identifier",
-    "named": true
-  },
-  {
     "type": "import",
     "named": false
-  },
-  {
-    "type": "method_identifier",
-    "named": true
   },
   {
     "type": "nil",
@@ -809,15 +817,7 @@
     "named": false
   },
   {
-    "type": "self_expression",
-    "named": true
-  },
-  {
     "type": "string_literal",
-    "named": true
-  },
-  {
-    "type": "type_identifier",
     "named": true
   },
   {

@@ -11,8 +11,7 @@ second" }
   (ERROR
     (UNEXPECTED '\n'))
   (ERROR
-    (identifier)
-    (UNEXPECTED '\n'))
+    (UNEXPECTED 's'))
   (ERROR
     (type_identifier)
     (parameter
@@ -27,5 +26,4 @@ second" }
       (caveat_text)
       (caveat_whitespace))
     (UNEXPECTED '\n')
-    (identifier)
-    (UNEXPECTED '\0')))
+    (UNEXPECTED 's')))

@@ -12,29 +12,26 @@ definition ns/resource {
   (object_definition
     name: (type_identifier)
     body: (relation
-      (ERROR
-        (identifier)
-        (UNEXPECTED 'v'))
       name: (field_identifier)
+      (ERROR
+        (UNEXPECTED 'v'))
       expr: (relation_expr
         (unary_relation_expr
           (relation_type
             (type_identifier)))))
     body: (permission
-      (ERROR
-        (identifier)
-        (UNEXPECTED 'v'))
       name: (method_identifier)
+      (ERROR
+        (UNEXPECTED 'v'))
       expr: (permission_expr
         (unary_permission_expr
           (userset
             (field_identifier)))))
     body: (permission
       name: (method_identifier)
-      (ERROR
-        (identifier)
-        (UNEXPECTED 'v'))
       expr: (permission_expr
         (unary_permission_expr
           (userset
-            (field_identifier)))))))
+            (field_identifier)))))
+    (ERROR
+      (UNEXPECTED 'v'))))

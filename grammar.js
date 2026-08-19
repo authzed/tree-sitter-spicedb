@@ -12,13 +12,23 @@ module.exports = grammar({
     /[ \t\r]/,
   ],
 
-  word: $ => $.identifier,
+  word: $ => $._identifier,
 
   inline: $ => [
     $.object_identifier,
     $.relation_identifier,
     $.permission_identifier,
     $.caveat_identifier,
+  ],
+
+  externals: $ => [
+    $._identifier,
+    $._qualified_identifier,
+    $._self_keyword,
+    $._expiration_keyword,
+    $._and_keyword,
+    $._nil_keyword,
+    $._error_sentinel,
   ],
 
   rules: {
@@ -42,8 +52,8 @@ module.exports = grammar({
       ),
     )),
 
-    identifier: _ => token(prec(-1, /[a-zA-Z0-9_\u0080-\uFFFF]+/)),
-    qualified_identifier: _ => token(prec(-1, /[a-zA-Z0-9_\u0080-\uFFFF]+(\/[a-zA-Z0-9_\u0080-\uFFFF]+)*/)),
+    identifier: $ => $._identifier,
+    qualified_identifier: $ => $._qualified_identifier,
     object_identifier: $ => alias($.qualified_identifier, $.type_identifier),
     relation_identifier: $ => alias($.identifier, $.field_identifier),
     permission_identifier: $ => alias($.identifier, $.method_identifier),
@@ -101,11 +111,11 @@ module.exports = grammar({
     wildcard_type: $ => seq($.object_identifier, ':', '*'),
     reference_type: $ => seq($.object_identifier, '#', choice($.relation_identifier, '...')),
     relation_trait: $ => choice($.expiration_trait, $.caveat_with_expiration),
-    expiration_trait: _ => seq('with', 'expiration'),
+    expiration_trait: $ => seq('with', $._expiration_keyword),
     caveat_with_expiration: $ => seq(
       'with',
       $.caveat_identifier,
-      optional(seq('and', 'expiration')),
+      optional(seq($._and_keyword, $._expiration_keyword)),
     ),
 
     userset: $ => choice($.relation_identifier, $.arrow_expression),
@@ -139,13 +149,13 @@ module.exports = grammar({
       $.identifier,
       repeat(seq('|', $.identifier)),
     ),
-    permission_expr: $ => choice('nil', $.unary_permission_expr, $.binary_permission_expr),
+    permission_expr: $ => choice(alias($._nil_keyword, 'nil'), $.unary_permission_expr, $.binary_permission_expr),
     unary_permission_expr: $ => choice(
       $.userset,
       $.self_expression,
       $.parenthesized_permission_expression,
     ),
-    self_expression: _ => 'self',
+    self_expression: $ => $._self_keyword,
     parenthesized_permission_expression: $ => seq('(', $.permission_expr, ')'),
     binary_permission_expr: $ => choice(
       prec.left(3, seq($.permission_expr, '+', $.permission_expr)),

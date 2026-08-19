@@ -160,7 +160,7 @@
       "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
-        "name": "qualified_identifier"
+        "name": "identifier"
       },
       "named": true,
       "value": "field_identifier"
@@ -169,7 +169,7 @@
       "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
-        "name": "qualified_identifier"
+        "name": "identifier"
       },
       "named": true,
       "value": "method_identifier"
@@ -187,7 +187,7 @@
       "type": "ALIAS",
       "content": {
         "type": "SYMBOL",
-        "name": "qualified_identifier"
+        "name": "identifier"
       },
       "named": true,
       "value": "cel_variable_identifier"
@@ -199,7 +199,7 @@
           "type": "ALIAS",
           "content": {
             "type": "SYMBOL",
-            "name": "qualified_identifier"
+            "name": "identifier"
           },
           "named": true,
           "value": "cel_type_identifier"

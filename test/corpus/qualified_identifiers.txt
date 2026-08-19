@@ -1,0 +1,40 @@
+================================================================================
+qualified identifiers are restricted by position
+================================================================================
+definition ns/resource {
+  relation ns/viewer: user
+  permission ns/view = viewer
+  permission view = ns/viewer
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (object_definition
+    name: (type_identifier)
+    body: (relation
+      (ERROR
+        (identifier)
+        (UNEXPECTED 'v'))
+      name: (field_identifier)
+      expr: (relation_expr
+        (unary_relation_expr
+          (relation_type
+            (type_identifier)))))
+    body: (permission
+      (ERROR
+        (identifier)
+        (UNEXPECTED 'v'))
+      name: (method_identifier)
+      expr: (permission_expr
+        (unary_permission_expr
+          (userset
+            (field_identifier)))))
+    body: (permission
+      name: (method_identifier)
+      (ERROR
+        (identifier)
+        (UNEXPECTED 'v'))
+      expr: (permission_expr
+        (unary_permission_expr
+          (userset
+            (field_identifier)))))))

@@ -49,13 +49,13 @@ module.exports = grammar({
     identifier: _ => token(prec(-1, /[a-zA-Z0-9_\u0080-\uFFFF]+/)),
     qualified_identifier: _ => token(prec(-1, /[a-zA-Z0-9_\u0080-\uFFFF]+(\/[a-zA-Z0-9_\u0080-\uFFFF]+)*/)),
     object_identifier: $ => alias($.qualified_identifier, $.type_identifier),
-    relation_identifier: $ => alias($.qualified_identifier, $.field_identifier),
-    permission_identifier: $ => alias($.qualified_identifier, $.method_identifier),
+    relation_identifier: $ => alias($.identifier, $.field_identifier),
+    permission_identifier: $ => alias($.identifier, $.method_identifier),
 
     caveat_identifier: $ => alias($.qualified_identifier, $.func_identifier),
-    parameter_identifier: $ => alias($.qualified_identifier, $.cel_variable_identifier),
+    parameter_identifier: $ => alias($.identifier, $.cel_variable_identifier),
     parameter_type_identifier: $ => seq(
-      alias($.qualified_identifier, $.cel_type_identifier),
+      alias($.identifier, $.cel_type_identifier),
       optional(seq(
         '<',
         $.parameter_type_identifier,

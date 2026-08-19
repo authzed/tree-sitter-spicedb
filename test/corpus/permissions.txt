@@ -5,6 +5,7 @@ definition resource {
   permission grouped = (reader & writer) + self
   permission arrow = parent.any(member).all(editor)->viewer
   permission precedence = reader + writer & editor - banned
+  permission combined = reader + writer - banned
 }
 --------------------------------------------------------------------------------
 
@@ -48,15 +49,7 @@ definition resource {
       expr: (permission_expr
         (binary_permission_expr
           (permission_expr
-            (unary_permission_expr
-              (userset
-                (field_identifier))))
-          (permission_expr
             (binary_permission_expr
-              (permission_expr
-                (unary_permission_expr
-                  (userset
-                    (field_identifier))))
               (permission_expr
                 (binary_permission_expr
                   (permission_expr
@@ -66,4 +59,30 @@ definition resource {
                   (permission_expr
                     (unary_permission_expr
                       (userset
-                        (field_identifier)))))))))))))
+                        (field_identifier))))))
+              (permission_expr
+                (unary_permission_expr
+                  (userset
+                    (field_identifier))))))
+          (permission_expr
+            (unary_permission_expr
+              (userset
+                (field_identifier)))))))
+    body: (permission
+      name: (method_identifier)
+      expr: (permission_expr
+        (binary_permission_expr
+          (permission_expr
+            (binary_permission_expr
+              (permission_expr
+                (unary_permission_expr
+                  (userset
+                    (field_identifier))))
+              (permission_expr
+                (unary_permission_expr
+                  (userset
+                    (field_identifier))))))
+          (permission_expr
+            (unary_permission_expr
+              (userset
+                (field_identifier)))))))))

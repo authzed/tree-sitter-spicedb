@@ -147,9 +147,9 @@ module.exports = grammar({
     self_expression: _ => 'self',
     parenthesized_permission_expression: $ => seq('(', $.permission_expr, ')'),
     binary_permission_expr: $ => choice(
-      prec.left(1, seq($.permission_expr, '+', $.permission_expr)),
+      prec.left(3, seq($.permission_expr, '+', $.permission_expr)),
       prec.left(2, seq($.permission_expr, '&', $.permission_expr)),
-      prec.left(3, seq($.permission_expr, '-', $.permission_expr)),
+      prec.left(1, seq($.permission_expr, '-', $.permission_expr)),
     ),
 
     caveat_definition: $ => seq(

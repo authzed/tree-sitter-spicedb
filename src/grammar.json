@@ -1068,11 +1068,31 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "[^{}]+"
+            "value": "[^{}\"']+"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "caveat_string"
           },
           {
             "type": "SYMBOL",
             "name": "caveat_object"
+          }
+        ]
+      }
+    },
+    "caveat_string": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "\"([^\"\\\\]|\\\\.)*\""
+          },
+          {
+            "type": "PATTERN",
+            "value": "'([^'\\\\]|\\\\.)*'"
           }
         ]
       }

@@ -173,7 +173,8 @@ module.exports = grammar({
       optional(','),
     )),
 
-    caveat_expr: $ => repeat1(choice(/[^{}]+/, $.caveat_object)),
+    caveat_expr: $ => repeat1(choice(/[^{}"']+/, $.caveat_string, $.caveat_object)),
+    caveat_string: _ => token(choice(/"([^"\\]|\\.)*"/, /'([^'\\]|\\.)*'/)),
     caveat_object: $ => seq('{', repeat(choice(/[^{}]+/, $.caveat_object)), '}'),
   },
 });

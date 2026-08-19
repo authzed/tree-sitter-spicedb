@@ -2,7 +2,7 @@
 generic caveat types and CEL objects
 ================================================================================
 caveat somecaveat(somemap map<string>, somelist list<int>) {
-  ({"themap": 42}).contains("whatever") && somelist.contains("hiya")
+  ({"themap": 42}).contains("whatever") && somelist.contains("}")
 }
 --------------------------------------------------------------------------------
 
@@ -24,4 +24,6 @@ caveat somecaveat(somemap map<string>, somelist list<int>) {
         (parameter_type_identifier
           (cel_type_identifier))))
     expr: (caveat_expr
-      (caveat_object))))
+      (caveat_object)
+      (caveat_string)
+      (caveat_string))))

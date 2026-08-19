@@ -99,6 +99,10 @@
         {
           "type": "caveat_object",
           "named": true
+        },
+        {
+          "type": "caveat_string",
+          "named": true
         }
       ]
     }
@@ -699,6 +703,10 @@
   {
     "type": "caveat",
     "named": false
+  },
+  {
+    "type": "caveat_string",
+    "named": true
   },
   {
     "type": "cel_type_identifier",

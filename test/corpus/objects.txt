@@ -276,7 +276,8 @@ caveat only_on_tuesday(day_of_week string) {
         (cel_variable_identifier))
       (parameter_type_identifier
         (cel_type_identifier)))
-    (caveat_expr)))
+    (caveat_expr
+      (caveat_string))))
 
 ================================================================================
 caveat with registry cel expression
@@ -299,4 +300,7 @@ caveat only_on_tuesday(day_of_week string) {
         (cel_variable_identifier))
       (parameter_type_identifier
         (cel_type_identifier)))
-    (caveat_expr)))
+    (caveat_expr
+      (caveat_string)
+      (caveat_string)
+      (caveat_string))))

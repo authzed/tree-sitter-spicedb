@@ -2,6 +2,7 @@
 top-level declarations and partials
 ================================================================================
 use partial
+use import
 import "common.zed"
 import 'single.zed'
 import """multi
@@ -20,6 +21,8 @@ definition resource {
 --------------------------------------------------------------------------------
 
 (source_file
+  (use_flag
+    name: (identifier))
   (use_flag
     name: (identifier))
   (import
@@ -58,3 +61,14 @@ partial unflagged {}
 (source_file
   (ERROR
     (UNEXPECTED 'a')))
+
+================================================================================
+imports require their use flag
+================================================================================
+import "unflagged.zed"
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR
+    (UNEXPECTED 'i')
+    (string_literal)))

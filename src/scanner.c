@@ -13,11 +13,13 @@ enum TokenType {
   USE_SELF_FLAG,
   USE_EXPIRATION_FLAG,
   USE_PARTIAL_FLAG,
+  USE_IMPORT_FLAG,
   SELF_KEYWORD,
   EXPIRATION_KEYWORD,
   AND_KEYWORD,
   NIL_KEYWORD,
   PARTIAL_KEYWORD,
+  IMPORT_KEYWORD,
   ERROR_SENTINEL,
 };
 
@@ -25,6 +27,7 @@ typedef struct {
   bool self_enabled;
   bool expiration_enabled;
   bool partial_enabled;
+  bool import_enabled;
 } Scanner;
 
 void *tree_sitter_spicedb_external_scanner_create(void) {
@@ -38,7 +41,7 @@ void tree_sitter_spicedb_external_scanner_destroy(void *payload) {
 unsigned tree_sitter_spicedb_external_scanner_serialize(void *payload, char *buffer) {
   Scanner *scanner = payload;
   buffer[0] = scanner->self_enabled | scanner->expiration_enabled << 1 |
-      scanner->partial_enabled << 2;
+      scanner->partial_enabled << 2 | scanner->import_enabled << 3;
   return 1;
 }
 
@@ -47,6 +50,7 @@ void tree_sitter_spicedb_external_scanner_deserialize(void *payload, const char 
   scanner->self_enabled = length > 0 && (buffer[0] & 1);
   scanner->expiration_enabled = length > 0 && (buffer[0] & 2);
   scanner->partial_enabled = length > 0 && (buffer[0] & 4);
+  scanner->import_enabled = length > 0 && (buffer[0] & 8);
 }
 
 static bool is_unicode_letter_or_digit(int32_t codepoint) {
@@ -93,10 +97,11 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
   if (valid_symbols[ERROR_SENTINEL] ||
       (!valid_symbols[IDENTIFIER] && !valid_symbols[QUALIFIED_IDENTIFIER] &&
        !valid_symbols[USE_SELF_FLAG] && !valid_symbols[USE_EXPIRATION_FLAG] &&
-       !valid_symbols[USE_PARTIAL_FLAG] && !valid_symbols[SELF_KEYWORD] &&
+       !valid_symbols[USE_PARTIAL_FLAG] && !valid_symbols[USE_IMPORT_FLAG] &&
+       !valid_symbols[SELF_KEYWORD] &&
        !valid_symbols[EXPIRATION_KEYWORD] &&
        !valid_symbols[AND_KEYWORD] && !valid_symbols[NIL_KEYWORD] &&
-       !valid_symbols[PARTIAL_KEYWORD])) return false;
+       !valid_symbols[PARTIAL_KEYWORD] && !valid_symbols[IMPORT_KEYWORD])) return false;
   while (lexer->lookahead == ' ' || lexer->lookahead == '\t') lexer->advance(lexer, true);
   char value[16] = {0};
   bool ascii = true;
@@ -143,6 +148,18 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
     if (scanner->partial_enabled) {
       if (!valid_symbols[PARTIAL_KEYWORD]) return false;
       lexer->result_symbol = PARTIAL_KEYWORD;
+      return true;
+    }
+  }
+  if (ascii && !strcmp(value, "import")) {
+    if (valid_symbols[USE_IMPORT_FLAG]) {
+      scanner->import_enabled = true;
+      lexer->result_symbol = USE_IMPORT_FLAG;
+      return true;
+    }
+    if (scanner->import_enabled) {
+      if (!valid_symbols[IMPORT_KEYWORD]) return false;
+      lexer->result_symbol = IMPORT_KEYWORD;
       return true;
     }
   }

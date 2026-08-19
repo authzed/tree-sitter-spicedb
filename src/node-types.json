@@ -797,10 +797,6 @@
     "named": false
   },
   {
-    "type": "import",
-    "named": false
-  },
-  {
     "type": "nil",
     "named": false
   },

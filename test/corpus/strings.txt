@@ -1,6 +1,7 @@
 ================================================================================
 ordinary strings reject newlines
 ================================================================================
+use import
 import "first
 second"
 caveat invalid(value string) { value == "first
@@ -8,6 +9,8 @@ second" }
 --------------------------------------------------------------------------------
 
 (source_file
+  (use_flag
+    name: (identifier))
   (ERROR
     (UNEXPECTED '\n'))
   (ERROR
@@ -15,9 +18,9 @@ second" }
   (ERROR
     (type_identifier)
     (parameter
-      (parameter_identifier
+      name: (parameter_identifier
         (cel_variable_identifier))
-      (parameter_type_identifier
+      type: (parameter_type_identifier
         (cel_type_identifier)))
     (caveat_expr
       (caveat_whitespace)

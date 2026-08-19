@@ -9,7 +9,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /\s/,
+    /[ \t\r]/,
   ],
 
   word: $ => $.identifier,
@@ -22,7 +22,12 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => repeat($._top_level),
+    source_file: $ => seq(
+      repeat($._statement_terminator),
+      repeat(seq($._top_level, repeat1($._statement_terminator))),
+      optional($._top_level),
+    ),
+    _statement_terminator: _ => choice(';', '\n'),
     _top_level: $ => choice(
       $.use_flag,
       $.import,
@@ -63,7 +68,11 @@ module.exports = grammar({
       'definition',
       field('name', $.object_identifier),
       '{',
-      optional(field('body', repeat(choice($.relation, $.permission, $.partial_reference)))),
+      repeat($._statement_terminator),
+      repeat(seq(
+        field('body', choice($.relation, $.permission, $.partial_reference)),
+        repeat1($._statement_terminator),
+      )),
       '}',
     ),
 
@@ -74,7 +83,11 @@ module.exports = grammar({
       'partial',
       field('name', $.object_identifier),
       '{',
-      optional(field('body', repeat(choice($.relation, $.permission, $.partial_reference)))),
+      repeat($._statement_terminator),
+      repeat(seq(
+        field('body', choice($.relation, $.permission, $.partial_reference)),
+        repeat1($._statement_terminator),
+      )),
       '}',
     ),
 

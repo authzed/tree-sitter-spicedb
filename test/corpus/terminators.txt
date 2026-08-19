@@ -1,0 +1,20 @@
+================================================================================
+newline and semicolon statement terminators
+================================================================================
+definition user {}; definition document {
+  relation viewer: user;
+  permission view = viewer;
+}
+--------------------------------------------------------------------------------
+(source_file
+  (object_definition name: (type_identifier))
+  (object_definition
+    name: (type_identifier)
+    body: (relation
+      name: (field_identifier)
+      expr: (relation_expr (unary_relation_expr
+        (relation_type (type_identifier)))))
+    body: (permission
+      name: (method_identifier)
+      expr: (permission_expr (unary_permission_expr
+        (userset (field_identifier)))))))

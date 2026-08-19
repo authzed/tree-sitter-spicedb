@@ -160,12 +160,12 @@ static const char * const ts_symbol_names[] = {
   [sym__use_typechecking_flag] = "identifier",
   [sym__definition_keyword] = "definition",
   [sym__caveat_keyword] = "caveat",
-  [sym__self_keyword] = "_self_keyword",
+  [sym__self_keyword] = "self",
   [sym__expiration_keyword] = "expiration",
   [sym__and_keyword] = "and",
   [sym__nil_keyword] = "nil",
-  [sym__partial_keyword] = "_partial_keyword",
-  [sym__import_keyword] = "_import_keyword",
+  [sym__partial_keyword] = "partial",
+  [sym__import_keyword] = "import",
   [sym__relation_ellipsis] = "...",
   [sym__pipe] = "|",
   [sym__semicolon] = ";",
@@ -488,8 +488,8 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = false,
   },
   [sym__self_keyword] = {
-    .visible = false,
-    .named = true,
+    .visible = true,
+    .named = false,
   },
   [sym__expiration_keyword] = {
     .visible = true,
@@ -504,12 +504,12 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = false,
   },
   [sym__partial_keyword] = {
-    .visible = false,
-    .named = true,
+    .visible = true,
+    .named = false,
   },
   [sym__import_keyword] = {
-    .visible = false,
-    .named = true,
+    .visible = true,
+    .named = false,
   },
   [sym__relation_ellipsis] = {
     .visible = true,

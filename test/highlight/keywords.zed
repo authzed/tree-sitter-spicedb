@@ -1,5 +1,21 @@
 use expiration
+//^ keyword
 //  ^ keyword
+use self
+//^ keyword
+//  ^ keyword
+use partial
+//^ keyword
+//  ^ keyword
+use import
+//^ keyword
+//  ^ keyword
+
+import "common.zed"
+// <- keyword
+
+partial common {}
+// <- keyword
 
 definition resource {
   relation viewer: user with somecaveat and expiration
@@ -8,4 +24,7 @@ definition resource {
 
   relation editor: user with expiration and somecaveat
 //                                      ^ keyword
+
+  permission view = self
+//                  ^ keyword
 }

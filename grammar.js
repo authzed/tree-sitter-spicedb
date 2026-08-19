@@ -106,7 +106,7 @@ module.exports = grammar({
       alias($._use_import_flag, $.identifier),
       alias($._use_typechecking_flag, $.identifier),
     ))),
-    import: $ => seq($._import_keyword, field('path', $.string_literal)),
+    import: $ => seq(alias($._import_keyword, 'import'), field('path', $.string_literal)),
     string_literal: _ => token(choice(
       /"[^"\r\n]*"/,
       /'[^'\r\n]*'/,
@@ -114,7 +114,7 @@ module.exports = grammar({
     )),
 
     partial_definition: $ => seq(
-      $._partial_keyword,
+      alias($._partial_keyword, 'partial'),
       field('name', $.object_identifier),
       '{',
       repeat($._statement_terminator),
@@ -202,7 +202,7 @@ module.exports = grammar({
       $.self_expression,
       $.parenthesized_permission_expression,
     ),
-    self_expression: $ => $._self_keyword,
+    self_expression: $ => alias($._self_keyword, 'self'),
     parenthesized_permission_expression: $ => seq('(', repeat($._newline), $.permission_expr, ')'),
     binary_permission_expr: $ => choice(
       prec.left(3, seq($.permission_expr, '+', repeat($._newline), $.permission_expr)),

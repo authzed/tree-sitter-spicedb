@@ -400,8 +400,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_import_keyword"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_import_keyword"
+          },
+          "named": false,
+          "value": "import"
         },
         {
           "type": "FIELD",
@@ -437,8 +442,13 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_partial_keyword"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_partial_keyword"
+          },
+          "named": false,
+          "value": "partial"
         },
         {
           "type": "FIELD",
@@ -1034,8 +1044,13 @@
       ]
     },
     "self_expression": {
-      "type": "SYMBOL",
-      "name": "_self_keyword"
+      "type": "ALIAS",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_self_keyword"
+      },
+      "named": false,
+      "value": "self"
     },
     "parenthesized_permission_expression": {
       "type": "SEQ",

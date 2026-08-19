@@ -821,7 +821,15 @@
     "named": false
   },
   {
+    "type": "import",
+    "named": false
+  },
+  {
     "type": "nil",
+    "named": false
+  },
+  {
+    "type": "partial",
     "named": false
   },
   {
@@ -830,6 +838,10 @@
   },
   {
     "type": "relation",
+    "named": false
+  },
+  {
+    "type": "self",
     "named": false
   },
   {

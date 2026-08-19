@@ -1,0 +1,34 @@
+================================================================================
+top-level declarations and partials
+================================================================================
+use partial
+import "common.zed"
+
+partial view_partial {
+  relation user: user
+  permission view = user
+}
+
+definition user {}
+
+definition resource {
+  ...view_partial
+}
+--------------------------------------------------------------------------------
+(source_file
+  (use_flag name: (identifier))
+  (import)
+  (partial_definition
+    name: (type_identifier)
+    body: (relation
+      name: (field_identifier)
+      expr: (relation_expr (unary_relation_expr
+        (relation_type (type_identifier)))))
+    body: (permission
+      name: (method_identifier)
+      expr: (permission_expr (unary_permission_expr
+        (userset (field_identifier))))) )
+  (object_definition name: (type_identifier))
+  (object_definition
+    name: (type_identifier)
+    body: (partial_reference name: (identifier))))

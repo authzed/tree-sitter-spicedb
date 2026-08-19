@@ -23,7 +23,14 @@ module.exports = grammar({
 
   rules: {
     source_file: $ => repeat($._top_level),
-    _top_level: $ => choice($.object_definition, $.caveat_definition, $.comment),
+    _top_level: $ => choice(
+      $.use_flag,
+      $.import,
+      $.object_definition,
+      $.partial_definition,
+      $.caveat_definition,
+      $.comment,
+    ),
 
     comment: _ => token(choice(
       seq('//', /.*/),
@@ -47,9 +54,22 @@ module.exports = grammar({
       'definition',
       field('name', $.object_identifier),
       '{',
-      optional(field('body', repeat(choice($.relation, $.permission)))),
+      optional(field('body', repeat(choice($.relation, $.permission, $.partial_reference)))),
       '}',
     ),
+
+    use_flag: $ => seq('use', field('name', $.identifier)),
+    import: _ => seq('import', field('path', /"[^"\n]*"/)),
+
+    partial_definition: $ => seq(
+      'partial',
+      field('name', $.object_identifier),
+      '{',
+      optional(field('body', repeat(choice($.relation, $.permission, $.partial_reference)))),
+      '}',
+    ),
+
+    partial_reference: $ => seq('...', field('name', $.identifier)),
 
     relation_type: $ => seq(
       choice($.object_identifier, $.wildcard_type, $.reference_type),

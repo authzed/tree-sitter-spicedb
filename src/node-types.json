@@ -100,6 +100,11 @@
     }
   },
   {
+    "type": "import",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "object_definition",
     "named": true,
     "fields": {
@@ -107,6 +112,10 @@
         "multiple": true,
         "required": false,
         "types": [
+          {
+            "type": "partial_reference",
+            "named": true
+          },
           {
             "type": "permission",
             "named": true
@@ -183,6 +192,56 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "partial_definition",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "partial_reference",
+            "named": true
+          },
+          {
+            "type": "permission",
+            "named": true
+          },
+          {
+            "type": "relation",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "partial_reference",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -338,7 +397,19 @@
           "named": true
         },
         {
+          "type": "import",
+          "named": true
+        },
+        {
           "type": "object_definition",
+          "named": true
+        },
+        {
+          "type": "partial_definition",
+          "named": true
+        },
+        {
+          "type": "use_flag",
           "named": true
         }
       ]
@@ -372,6 +443,22 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "use_flag",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -445,6 +532,10 @@
     "named": false
   },
   {
+    "type": "...",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -485,11 +576,23 @@
     "named": true
   },
   {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "import",
+    "named": false
+  },
+  {
     "type": "method_identifier",
     "named": true
   },
   {
     "type": "nil",
+    "named": false
+  },
+  {
+    "type": "partial",
     "named": false
   },
   {
@@ -503,6 +606,10 @@
   {
     "type": "type_identifier",
     "named": true
+  },
+  {
+    "type": "use",
+    "named": false
   },
   {
     "type": "with",

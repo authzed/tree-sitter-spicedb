@@ -2,18 +2,16 @@
 
 SpiceDB schema grammars for [tree-sitter].
 
-The queries in the [queries directory][qd] target [Helix]. Most captures are
-portable, and a small [Neovim] extension provides the remaining compatibility.
+The top-level files in the [queries directory][qd] target [Helix]. Standalone
+[Neovim queries][nq] live in `queries/neovim` so each query set can track its
+editor's conventions and be upstreamed independently.
 
 ## Neovim
 
 These instructions target the current `main` branch of [nvim-treesitter]. Add
-the following to your Neovim configuration, replacing `spicedb_path` with the
-path to this checkout:
+the following to your Neovim configuration:
 
 ```lua
-local spicedb_path = vim.fn.expand("~/src/tree-sitter-spicedb")
-
 vim.api.nvim_create_autocmd("User", {
   pattern = "TSUpdate",
   callback = function()
@@ -21,8 +19,8 @@ vim.api.nvim_create_autocmd("User", {
 
     parsers.spicedb = {
       install_info = {
-        path = spicedb_path,
-        queries = "queries",
+        url = "https://github.com/jzelinskie/tree-sitter-spicedb",
+        queries = "queries/neovim",
       },
     }
 
@@ -51,23 +49,13 @@ Install both parsers from Neovim:
 :TSInstall spicedb cel
 ```
 
-Finally, install the Neovim-specific capture override as an `after` query:
-
-```sh
-repo=/absolute/path/to/tree-sitter-spicedb
-config=${XDG_CONFIG_HOME:-$HOME/.config}/nvim
-mkdir -p "$config/after/queries/spicedb"
-ln -sfn "$repo/queries/neovim/highlights.scm" \
-  "$config/after/queries/spicedb/highlights.scm"
-```
-
-The SpiceDB parser configuration links the base highlight and injection queries
-from this checkout. The `after` query extends them with Neovim's
-`@variable.member` capture. Installing the CEL parser enables syntax
-highlighting inside caveat expressions.
+The SpiceDB parser configuration installs the Neovim highlight and injection
+queries with the parser. Installing the CEL parser enables syntax highlighting
+inside caveat expressions.
 
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
 [qd]: https://github.com/jzelinskie/tree-sitter-spicedb/tree/main/queries
+[nq]: https://github.com/jzelinskie/tree-sitter-spicedb/tree/main/queries/neovim
 [Helix]: https://github.com/helix-editor/helix
 [Neovim]: https://neovim.io/
 [nvim-treesitter]: https://github.com/nvim-treesitter/nvim-treesitter

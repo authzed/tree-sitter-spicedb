@@ -67,9 +67,9 @@
 (use_flag name: (identifier) @keyword)
 (permission_type_annotation (identifier) @type)
 (partial_reference name: (identifier) @type)
-(type_identifier) @type
+(type_identifier (identifier) @type)
 (cel_type_identifier) @type
 (cel_variable_identifier) @variable.parameter
 (field_identifier) @variable.other.member
-(func_identifier) @function
+(func_identifier (identifier) @function)
 (method_identifier) @function.method

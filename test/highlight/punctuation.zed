@@ -1,5 +1,7 @@
 definition tenant/resource {
+//         ^ type
 //               ^ punctuation.delimiter
+//                ^ type
   relation groups: group#...;
 //                         ^ operator
 //                          ^ punctuation.delimiter

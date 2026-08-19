@@ -17,11 +17,15 @@
   ","
   ":"
   "."
+  ";"
+  "/"
 ] @punctuation.delimiter
 
 [
   "("
   ")"
+  "<"
+  ">"
 ] @punctuation.bracket
 
 (object_definition

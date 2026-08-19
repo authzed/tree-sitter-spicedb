@@ -1,0 +1,10 @@
+definition tenant/resource {
+//               ^ punctuation.delimiter
+  relation groups: group#...;
+//                         ^ operator
+//                          ^ punctuation.delimiter
+}
+
+caveat check(value map<string>) { true }
+//                    ^ punctuation.bracket
+//                           ^ punctuation.bracket

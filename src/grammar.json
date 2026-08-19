@@ -1019,27 +1019,79 @@
       }
     },
     "caveat_expr": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "[^{}\"'\\/]+"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "caveat_string"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "caveat_comment"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "caveat_object"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "caveat_whitespace"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "caveat_comment"
+              }
+            ]
           }
-        ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_caveat_content"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "caveat_whitespace"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "caveat_comment"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_caveat_content"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "_caveat_content": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "caveat_text"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "caveat_string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "caveat_object"
+        }
+      ]
+    },
+    "caveat_text": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "[^\\s{}\"']+"
+      }
+    },
+    "caveat_whitespace": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\\s+"
       }
     },
     "caveat_string": {
@@ -1117,8 +1169,12 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "PATTERN",
-                "value": "[^{}\"'\\/]+"
+                "type": "SYMBOL",
+                "name": "caveat_whitespace"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "caveat_text"
               },
               {
                 "type": "SYMBOL",

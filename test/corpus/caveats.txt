@@ -24,10 +24,23 @@ caveat somecaveat(somemap map<string>, somelist list<int>) {
         (parameter_type_identifier
           (cel_type_identifier))))
     expr: (caveat_expr
+      (caveat_whitespace)
+      (caveat_text)
       (caveat_object
-        (caveat_string))
+        (caveat_string)
+        (caveat_text)
+        (caveat_whitespace)
+        (caveat_text))
+      (caveat_text)
       (caveat_string)
-      (caveat_string))))
+      (caveat_text)
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_string)
+      (caveat_text)
+      (caveat_whitespace))))
 
 ================================================================================
 caveat parameters require values after delimiters
@@ -53,7 +66,10 @@ caveat trailing(value int,) { true }
       (parameter_type_identifier
         (cel_type_identifier)))
     (ERROR)
-    (caveat_expr)))
+    (caveat_expr
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace))))
 
 ================================================================================
 CEL strings and comments may contain braces
@@ -73,10 +89,24 @@ caveat boundaries(value string) {
       (parameter_type_identifier
         (cel_type_identifier)))
     (caveat_expr
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace)
       (caveat_string)
       (caveat_comment)
+      (caveat_whitespace)
       (caveat_comment)
-      (caveat_string))))
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace)
+      (caveat_string)
+      (caveat_whitespace))))
 
 ================================================================================
 nested CEL objects may contain braces in strings and comments
@@ -93,6 +123,30 @@ caveat nested(value string) { {"}": value /* } */} }
       (parameter_type_identifier
         (cel_type_identifier)))
     (caveat_expr
+      (caveat_whitespace)
       (caveat_object
         (caveat_string)
-        (caveat_comment)))))
+        (caveat_text)
+        (caveat_whitespace)
+        (caveat_text)
+        (caveat_comment))
+      (caveat_whitespace))))
+
+================================================================================
+comment-only caveat expressions are invalid
+================================================================================
+caveat commentonly(value string) { /* no expression */ }
+--------------------------------------------------------------------------------
+
+(source_file
+  (caveat_definition
+    (func_identifier)
+    (parameter
+      (parameter_identifier
+        (cel_variable_identifier))
+      (parameter_type_identifier
+        (cel_type_identifier)))
+    (caveat_expr
+      (caveat_comment)
+      (caveat_whitespace)
+      (MISSING caveat_text))))

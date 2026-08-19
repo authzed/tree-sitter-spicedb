@@ -94,7 +94,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "caveat_comment",
@@ -106,6 +106,14 @@
         },
         {
           "type": "caveat_string",
+          "named": true
+        },
+        {
+          "type": "caveat_text",
+          "named": true
+        },
+        {
+          "type": "caveat_whitespace",
           "named": true
         }
       ]
@@ -129,6 +137,14 @@
         },
         {
           "type": "caveat_string",
+          "named": true
+        },
+        {
+          "type": "caveat_text",
+          "named": true
+        },
+        {
+          "type": "caveat_whitespace",
           "named": true
         }
       ]
@@ -726,6 +742,14 @@
   },
   {
     "type": "caveat_string",
+    "named": true
+  },
+  {
+    "type": "caveat_text",
+    "named": true
+  },
+  {
+    "type": "caveat_whitespace",
     "named": true
   },
   {

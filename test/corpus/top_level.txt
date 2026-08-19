@@ -7,6 +7,8 @@ import "common.zed"
 import 'single.zed'
 import """multi
 line.zed"""
+import """quote"
+line.zed"""
 
 partial view_partial {
   relation user: user
@@ -25,6 +27,8 @@ definition resource {
     name: (identifier))
   (use_flag
     name: (identifier))
+  (import
+    path: (string_literal))
   (import
     path: (string_literal))
   (import

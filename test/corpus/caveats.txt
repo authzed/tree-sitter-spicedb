@@ -71,6 +71,8 @@ CEL strings and comments may contain braces
 ================================================================================
 caveat boundaries(value string) {
   value == """}""" // }
+  value == """quote"
+  }""" &&
   /* } */ && value == "ok"
 }
 --------------------------------------------------------------------------------
@@ -91,6 +93,14 @@ caveat boundaries(value string) {
       (caveat_whitespace)
       (caveat_string)
       (caveat_comment)
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace)
+      (caveat_string)
+      (caveat_whitespace)
+      (caveat_text)
       (caveat_whitespace)
       (caveat_comment)
       (caveat_whitespace)

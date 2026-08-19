@@ -102,7 +102,7 @@ module.exports = grammar({
     string_literal: _ => token(choice(
       /"[^"\r\n]*"/,
       /'[^'\r\n]*'/,
-      /"""([^"\n]|"[^"\n]|""[^"\n]|\n)*"""/,
+      /"""([^\"]|"[^\"]|""[^\"])*"""/,
     )),
 
     partial_definition: $ => seq(
@@ -202,7 +202,7 @@ module.exports = grammar({
     caveat_text: _ => token(/[^\s{}"']+/),
     caveat_whitespace: _ => token(/\s+/),
     caveat_string: _ => token(choice(
-      /"""([^"\n]|"[^"\n]|""[^"\n]|\n)*"""/,
+      /"""([^\"]|"[^\"]|""[^\"])*"""/,
       /"([^"\\\r\n]|\\[^\r\n])*"/,
       /'([^'\\\r\n]|\\[^\r\n])*'/,
     )),

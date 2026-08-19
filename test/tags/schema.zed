@@ -1,0 +1,37 @@
+use partial
+
+definition user {}
+//         ^ definition.type
+
+partial common {
+//      ^ definition.type
+  relation viewer: user
+//         ^ definition.field
+//                 ^ reference.type
+  permission view = viewer
+//           ^ definition.method
+//                  ^ reference.call
+}
+
+caveat active(now timestamp) {
+//     ^ definition.function
+  true
+}
+
+definition document {
+  relation parent: user with active
+//         ^ definition.field
+//                 ^ reference.type
+//                           ^ reference.call
+  relation shared: user:* | user#viewer
+//         ^ definition.field
+//                 ^ reference.type
+//                          ^ reference.type
+//                               ^ reference.call
+  permission view = parent->viewer
+//           ^ definition.method
+//                  ^ reference.call
+//                          ^ reference.call
+  ...common
+//   ^ reference.type
+}

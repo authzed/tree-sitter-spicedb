@@ -805,10 +805,6 @@
     "named": false
   },
   {
-    "type": "partial",
-    "named": false
-  },
-  {
     "type": "permission",
     "named": false
   },

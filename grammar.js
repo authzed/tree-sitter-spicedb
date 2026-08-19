@@ -26,10 +26,12 @@ module.exports = grammar({
     $._qualified_identifier,
     $._use_self_flag,
     $._use_expiration_flag,
+    $._use_partial_flag,
     $._self_keyword,
     $._expiration_keyword,
     $._and_keyword,
     $._nil_keyword,
+    $._partial_keyword,
     $._error_sentinel,
   ],
 
@@ -87,6 +89,7 @@ module.exports = grammar({
     use_flag: $ => seq('use', field('name', choice(
       alias($._use_self_flag, $.identifier),
       alias($._use_expiration_flag, $.identifier),
+      alias($._use_partial_flag, $.identifier),
       $.identifier,
     ))),
     import: $ => seq('import', field('path', $.string_literal)),
@@ -97,7 +100,7 @@ module.exports = grammar({
     )),
 
     partial_definition: $ => seq(
-      'partial',
+      $._partial_keyword,
       field('name', $.object_identifier),
       '{',
       repeat($._statement_terminator),

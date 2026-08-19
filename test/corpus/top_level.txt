@@ -48,3 +48,13 @@ definition resource {
     name: (type_identifier)
     body: (partial_reference
       name: (identifier))))
+
+================================================================================
+partial declarations require their use flag
+================================================================================
+partial unflagged {}
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR
+    (UNEXPECTED 'a')))

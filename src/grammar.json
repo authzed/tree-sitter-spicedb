@@ -310,6 +310,15 @@
                 "value": "identifier"
               },
               {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_use_partial_flag"
+                },
+                "named": true,
+                "value": "identifier"
+              },
+              {
                 "type": "SYMBOL",
                 "name": "identifier"
               }
@@ -359,8 +368,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "partial"
+          "type": "SYMBOL",
+          "name": "_partial_keyword"
         },
         {
           "type": "FIELD",
@@ -1243,6 +1252,10 @@
     },
     {
       "type": "SYMBOL",
+      "name": "_use_partial_flag"
+    },
+    {
+      "type": "SYMBOL",
       "name": "_self_keyword"
     },
     {
@@ -1256,6 +1269,10 @@
     {
       "type": "SYMBOL",
       "name": "_nil_keyword"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_partial_keyword"
     },
     {
       "type": "SYMBOL",

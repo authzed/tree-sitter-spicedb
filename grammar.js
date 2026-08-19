@@ -183,6 +183,11 @@ module.exports = grammar({
       seq('//', /[^\r\n]*/),
       seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/'),
     ))),
-    caveat_object: $ => seq('{', repeat(choice(/[^{}]+/, $.caveat_object)), '}'),
+    caveat_object: $ => seq('{', repeat(choice(
+      /[^{}"'\/]+/,
+      $.caveat_string,
+      $.caveat_comment,
+      $.caveat_object,
+    )), '}'),
   },
 });

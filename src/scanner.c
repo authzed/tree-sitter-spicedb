@@ -86,6 +86,14 @@ static bool is_reserved(const char *value) {
       !strcmp(value, "nil") || !strcmp(value, "with");
 }
 
+static bool is_enabled_keyword(const Scanner *scanner, const char *value) {
+  return (scanner->self_enabled && !strcmp(value, "self")) ||
+      (scanner->expiration_enabled && (!strcmp(value, "expiration") || !strcmp(value, "and"))) ||
+      (scanner->partial_enabled && !strcmp(value, "partial")) ||
+      (scanner->import_enabled && !strcmp(value, "import")) ||
+      (scanner->typechecking_enabled && !strcmp(value, "typechecking"));
+}
+
 static bool scan_segment(TSLexer *lexer, char *value, size_t size, bool *ascii) {
   size_t length = 0;
   *ascii = true;
@@ -201,7 +209,7 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
     while (lexer->lookahead == '/') {
       lexer->advance(lexer, false);
       if (!scan_segment(lexer, value, sizeof(value), &ascii) ||
-          (ascii && is_reserved(value))) return false;
+          (ascii && (is_reserved(value) || is_enabled_keyword(scanner, value)))) return false;
     }
     lexer->result_symbol = QUALIFIED_IDENTIFIER;
   } else {

@@ -54,11 +54,38 @@ use expiration
 enabled feature names are reserved globally
 ================================================================================
 use typechecking
+use self
+use expiration
+use partial
+use import
 definition typechecking {}
+definition ns/self {}
+definition ns/and {}
+definition ns/partial {}
+definition ns/import {}
+definition ns/typechecking {}
 --------------------------------------------------------------------------------
 
 (source_file
   (use_flag
     (identifier))
+  (use_flag
+    (identifier))
+  (use_flag
+    (identifier))
+  (use_flag
+    (identifier))
+  (use_flag
+    (identifier))
   (ERROR
-    (UNEXPECTED 't')))
+    (UNEXPECTED 't'))
+  (ERROR
+    (UNEXPECTED 'n'))
+  (ERROR
+    (UNEXPECTED 'n'))
+  (ERROR
+    (UNEXPECTED 'n'))
+  (ERROR
+    (UNEXPECTED 'n'))
+  (ERROR
+    (UNEXPECTED 'n')))

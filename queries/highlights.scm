@@ -33,6 +33,7 @@
   "&"
   "#"
   "->"
+  "..."
   "="
 ] @operator
 ("with") @keyword.operator
@@ -46,6 +47,7 @@
 (string_literal) @string
 (use_flag name: (identifier) @keyword)
 (permission_type_annotation (identifier) @type)
+(partial_reference name: (identifier) @type)
 (type_identifier) @type
 (cel_type_identifier) @type
 (cel_variable_identifier) @variable.parameter

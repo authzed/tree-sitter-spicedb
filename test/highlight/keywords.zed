@@ -19,6 +19,10 @@ partial common {}
 // <- keyword
 
 definition resource {
+  ...common
+//^ operator
+//   ^ type
+
   relation viewer: user with somecaveat and expiration
 //                                        ^ keyword
 //                                            ^ keyword

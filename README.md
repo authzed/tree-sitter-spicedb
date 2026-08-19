@@ -13,3 +13,4 @@ Current supported editors:
 [tree-sitter]: https://github.com/tree-sitter/tree-sitter
 [qd]: https://github.com/jzelinskie/tree-sitter-spicedb/tree/main/queries
 [Helix]: https://github.com/helix-editor/helix
+[Neovim]: https://github.com/nvim-treesitter/nvim-treesitter

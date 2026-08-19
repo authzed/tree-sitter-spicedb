@@ -41,3 +41,20 @@ definition 👤 {}
     (UNEXPECTED 169))
   (ERROR
     (UNEXPECTED 128100)))
+
+================================================================================
+reserved keywords are not identifiers
+================================================================================
+definition definition {}
+definition ns/permission {}
+caveat with(value string) { value == value }
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR)
+  (ERROR
+    (UNEXPECTED 'n'))
+  (ERROR
+    (UNEXPECTED 'v')
+    (UNEXPECTED 'v')
+    (UNEXPECTED 'v')))

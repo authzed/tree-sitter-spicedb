@@ -47,9 +47,22 @@ static bool is_identifier_char(int32_t codepoint) {
   return codepoint >= 0x80 && is_unicode_letter_or_digit(codepoint);
 }
 
-static bool scan_segment(TSLexer *lexer) {
+static bool is_reserved(const char *value) {
+  return !strcmp(value, "definition") || !strcmp(value, "caveat") ||
+      !strcmp(value, "relation") || !strcmp(value, "permission") ||
+      !strcmp(value, "nil") || !strcmp(value, "with");
+}
+
+static bool scan_segment(TSLexer *lexer, char *value, size_t size, bool *ascii) {
+  size_t length = 0;
+  *ascii = true;
   if (!is_identifier_char(lexer->lookahead)) return false;
-  while (is_identifier_char(lexer->lookahead)) lexer->advance(lexer, false);
+  while (is_identifier_char(lexer->lookahead)) {
+    if (lexer->lookahead >= 0x80 || length + 1 >= size) *ascii = false;
+    else if (*ascii) value[length++] = (char)lexer->lookahead;
+    lexer->advance(lexer, false);
+  }
+  value[length] = '\0';
   lexer->mark_end(lexer);
   return true;
 }
@@ -61,15 +74,8 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
        !valid_symbols[AND_KEYWORD] && !valid_symbols[NIL_KEYWORD])) return false;
   while (lexer->lookahead == ' ' || lexer->lookahead == '\t') lexer->advance(lexer, true);
   char value[16] = {0};
-  size_t length = 0;
   bool ascii = true;
-  if (!is_identifier_char(lexer->lookahead)) return false;
-  while (is_identifier_char(lexer->lookahead)) {
-    if (lexer->lookahead >= 0x80 || length + 1 >= sizeof(value)) ascii = false;
-    else if (ascii) value[length++] = (char)lexer->lookahead;
-    lexer->advance(lexer, false);
-  }
-  lexer->mark_end(lexer);
+  if (!scan_segment(lexer, value, sizeof(value), &ascii)) return false;
   if (ascii && !strcmp(value, "self") && valid_symbols[SELF_KEYWORD]) {
     lexer->result_symbol = SELF_KEYWORD;
     return true;
@@ -86,11 +92,13 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
     lexer->result_symbol = NIL_KEYWORD;
     return true;
   }
+  if (ascii && is_reserved(value)) return false;
 
   if (valid_symbols[QUALIFIED_IDENTIFIER]) {
     while (lexer->lookahead == '/') {
       lexer->advance(lexer, false);
-      if (!scan_segment(lexer)) return false;
+      if (!scan_segment(lexer, value, sizeof(value), &ascii) ||
+          (ascii && is_reserved(value))) return false;
     }
     lexer->result_symbol = QUALIFIED_IDENTIFIER;
   } else {

@@ -53,3 +53,26 @@ caveat trailing(value int,) { true }
         (cel_type_identifier)))
     (ERROR)
     (caveat_expr)))
+
+================================================================================
+CEL strings and comments may contain braces
+================================================================================
+caveat boundaries(value string) {
+  value == """}""" // }
+  /* } */ && value == "ok"
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (caveat_definition
+    (func_identifier)
+    (parameter
+      (parameter_identifier
+        (cel_variable_identifier))
+      (parameter_type_identifier
+        (cel_type_identifier)))
+    (caveat_expr
+      (caveat_string)
+      (caveat_comment)
+      (caveat_comment)
+      (caveat_string))))

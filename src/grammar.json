@@ -1025,11 +1025,15 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "[^{}\"']+"
+            "value": "[^{}\"'\\/]+"
           },
           {
             "type": "SYMBOL",
             "name": "caveat_string"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "caveat_comment"
           },
           {
             "type": "SYMBOL",
@@ -1045,6 +1049,10 @@
         "members": [
           {
             "type": "PATTERN",
+            "value": "\"\"\"([^\"\\n]|\"[^\"\\n]|\"\"[^\"\\n]|\\n)*\"\"\""
+          },
+          {
+            "type": "PATTERN",
             "value": "\"([^\"\\\\]|\\\\.)*\""
           },
           {
@@ -1052,6 +1060,48 @@
             "value": "'([^'\\\\]|\\\\.)*'"
           }
         ]
+      }
+    },
+    "caveat_comment": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "//"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "[^\\r\\n]*"
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "/*"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "/"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     "caveat_object": {

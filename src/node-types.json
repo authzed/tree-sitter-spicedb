@@ -97,6 +97,10 @@
       "required": false,
       "types": [
         {
+          "type": "caveat_comment",
+          "named": true
+        },
+        {
           "type": "caveat_object",
           "named": true
         },
@@ -707,6 +711,10 @@
   {
     "type": "caveat",
     "named": false
+  },
+  {
+    "type": "caveat_comment",
+    "named": true
   },
   {
     "type": "caveat_string",

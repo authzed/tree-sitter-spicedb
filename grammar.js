@@ -168,8 +168,21 @@ module.exports = grammar({
       field('type', $.parameter_type_identifier),
     )),
 
-    caveat_expr: $ => repeat1(choice(/[^{}"']+/, $.caveat_string, $.caveat_object)),
-    caveat_string: _ => token(choice(/"([^"\\]|\\.)*"/, /'([^'\\]|\\.)*'/)),
+    caveat_expr: $ => repeat1(choice(
+      /[^{}"'\/]+/,
+      $.caveat_string,
+      $.caveat_comment,
+      $.caveat_object,
+    )),
+    caveat_string: _ => token(choice(
+      /"""([^"\n]|"[^"\n]|""[^"\n]|\n)*"""/,
+      /"([^"\\]|\\.)*"/,
+      /'([^'\\]|\\.)*'/,
+    )),
+    caveat_comment: _ => token(prec(1, choice(
+      seq('//', /[^\r\n]*/),
+      seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/'),
+    ))),
     caveat_object: $ => seq('{', repeat(choice(/[^{}]+/, $.caveat_object)), '}'),
   },
 });

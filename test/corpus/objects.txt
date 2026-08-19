@@ -150,7 +150,8 @@ definition document {
             (unary_relation_expr
               (relation_type
                 (reference_type
-                  (type_identifier))))))))))
+                  (type_identifier))))))))
+    (MISSING ";")))
 
 ================================================================================
 definition with multi-userset relation (2)

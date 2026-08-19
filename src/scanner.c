@@ -23,6 +23,8 @@ enum TokenType {
   NIL_KEYWORD,
   PARTIAL_KEYWORD,
   IMPORT_KEYWORD,
+  RELATION_ELLIPSIS,
+  NEWLINE,
   ERROR_SENTINEL,
 };
 
@@ -33,6 +35,7 @@ typedef struct {
   bool import_enabled;
   bool definition_seen;
   bool typechecking_enabled;
+  bool relation_ellipsis;
 } Scanner;
 
 void *tree_sitter_spicedb_external_scanner_create(void) {
@@ -47,7 +50,8 @@ unsigned tree_sitter_spicedb_external_scanner_serialize(void *payload, char *buf
   Scanner *scanner = payload;
   buffer[0] = scanner->self_enabled | scanner->expiration_enabled << 1 |
       scanner->partial_enabled << 2 | scanner->import_enabled << 3 |
-      scanner->definition_seen << 4 | scanner->typechecking_enabled << 5;
+      scanner->definition_seen << 4 | scanner->typechecking_enabled << 5 |
+      scanner->relation_ellipsis << 6;
   return 1;
 }
 
@@ -59,6 +63,7 @@ void tree_sitter_spicedb_external_scanner_deserialize(void *payload, const char 
   scanner->import_enabled = length > 0 && (buffer[0] & 8);
   scanner->definition_seen = length > 0 && (buffer[0] & 16);
   scanner->typechecking_enabled = length > 0 && (buffer[0] & 32);
+  scanner->relation_ellipsis = length > 0 && (buffer[0] & 64);
 }
 
 static bool is_unicode_letter_or_digit(int32_t codepoint) {
@@ -110,7 +115,33 @@ static bool scan_segment(TSLexer *lexer, char *value, size_t size, bool *ascii) 
 
 bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
   Scanner *scanner = payload;
-  if (valid_symbols[ERROR_SENTINEL] ||
+  if (valid_symbols[ERROR_SENTINEL]) return false;
+  while (lexer->lookahead == ' ' || lexer->lookahead == '\t') lexer->advance(lexer, true);
+  if (lexer->lookahead == '\r' || lexer->lookahead == '\n') {
+    if (valid_symbols[NEWLINE]) {
+      if (scanner->relation_ellipsis) return false;
+      int32_t first = lexer->lookahead;
+      lexer->advance(lexer, false);
+      if (first == '\r' && lexer->lookahead == '\n') lexer->advance(lexer, false);
+      scanner->relation_ellipsis = false;
+      lexer->result_symbol = NEWLINE;
+      return true;
+    }
+    do {
+      lexer->advance(lexer, true);
+    } while (lexer->lookahead == ' ' || lexer->lookahead == '\t' ||
+        lexer->lookahead == '\r' || lexer->lookahead == '\n');
+  }
+  if (valid_symbols[RELATION_ELLIPSIS] && lexer->lookahead == '.') {
+    for (unsigned i = 0; i < 3; i++) {
+      if (lexer->lookahead != '.') return false;
+      lexer->advance(lexer, false);
+    }
+    scanner->relation_ellipsis = true;
+    lexer->result_symbol = RELATION_ELLIPSIS;
+    return true;
+  }
+  if (
       (!valid_symbols[IDENTIFIER] && !valid_symbols[QUALIFIED_IDENTIFIER] &&
        !valid_symbols[USE_SELF_FLAG] && !valid_symbols[USE_EXPIRATION_FLAG] &&
        !valid_symbols[USE_PARTIAL_FLAG] && !valid_symbols[USE_IMPORT_FLAG] &&
@@ -119,10 +150,10 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
        !valid_symbols[EXPIRATION_KEYWORD] &&
        !valid_symbols[AND_KEYWORD] && !valid_symbols[NIL_KEYWORD] &&
        !valid_symbols[PARTIAL_KEYWORD] && !valid_symbols[IMPORT_KEYWORD])) return false;
-  while (lexer->lookahead == ' ' || lexer->lookahead == '\t') lexer->advance(lexer, true);
   char value[16] = {0};
   bool ascii = true;
   if (!scan_segment(lexer, value, sizeof(value), &ascii)) return false;
+  scanner->relation_ellipsis = false;
   if (ascii && !strcmp(value, "definition") && valid_symbols[DEFINITION_KEYWORD]) {
     scanner->definition_seen = true;
     lexer->result_symbol = DEFINITION_KEYWORD;

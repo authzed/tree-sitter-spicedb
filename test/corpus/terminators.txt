@@ -6,24 +6,126 @@ definition user {}; definition document {
   permission view = viewer;
 }
 --------------------------------------------------------------------------------
+
 (source_file
-  (object_definition name: (type_identifier))
+  (object_definition
+    name: (type_identifier))
   (object_definition
     name: (type_identifier)
     body: (relation
       name: (field_identifier)
-      expr: (relation_expr (unary_relation_expr
-        (relation_type (type_identifier)))))
+      expr: (relation_expr
+        (unary_relation_expr
+          (relation_type
+            (type_identifier)))))
     body: (permission
       name: (method_identifier)
-      expr: (permission_expr (unary_permission_expr
-        (userset (field_identifier)))))))
+      expr: (permission_expr
+        (unary_permission_expr
+          (userset
+            (field_identifier)))))))
 
 ================================================================================
 adjacent top-level declarations
 ================================================================================
 definition user {} definition document {}
 --------------------------------------------------------------------------------
+
 (source_file
-  (object_definition name: (type_identifier))
-  (object_definition name: (type_identifier)))
+  (object_definition
+    name: (type_identifier))
+  (object_definition
+    name: (type_identifier)))
+
+================================================================================
+newlines continue incomplete statements
+================================================================================
+definition resource {
+  relation viewer:
+    user |
+    group#member
+  permission view =
+    viewer +
+    editor
+}
+caveat context(
+  first string,
+  second int
+) { first != "" }
+--------------------------------------------------------------------------------
+
+(source_file
+  (object_definition
+    (type_identifier)
+    (relation
+      (field_identifier)
+      (relation_expr
+        (binary_relation_expr
+          (relation_expr
+            (unary_relation_expr
+              (relation_type
+                (type_identifier))))
+          (relation_expr
+            (unary_relation_expr
+              (relation_type
+                (reference_type
+                  (type_identifier)
+                  (field_identifier))))))))
+    (permission
+      (method_identifier)
+      (permission_expr
+        (binary_permission_expr
+          (permission_expr
+            (unary_permission_expr
+              (userset
+                (field_identifier))))
+          (permission_expr
+            (unary_permission_expr
+              (userset
+                (field_identifier))))))))
+  (caveat_definition
+    (func_identifier)
+    (parameter
+      (parameter_identifier
+        (cel_variable_identifier))
+      (parameter_type_identifier
+        (cel_type_identifier)))
+    (parameter
+      (parameter_identifier
+        (cel_variable_identifier))
+      (parameter_type_identifier
+        (cel_type_identifier)))
+    (caveat_expr
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace)
+      (caveat_text)
+      (caveat_whitespace)
+      (caveat_string)
+      (caveat_whitespace))))
+
+================================================================================
+ellipsis relation references require semicolons
+================================================================================
+definition valid {
+  relation viewer: group#...;
+}
+definition invalid {
+  relation viewer: group#...
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (object_definition
+    (type_identifier)
+    (relation
+      (field_identifier)
+      (relation_expr
+        (unary_relation_expr
+          (relation_type
+            (reference_type
+              (type_identifier)))))))
+  (ERROR
+    (UNEXPECTED 'd')
+    (UNEXPECTED 'v')
+    (UNEXPECTED 'g')))

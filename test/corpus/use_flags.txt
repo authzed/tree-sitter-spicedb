@@ -33,9 +33,7 @@ definition resource {}
 
 (source_file
   (ERROR
-    (UNEXPECTED 's'))
-  (object_definition
-    (type_identifier)))
+    (UNEXPECTED 's')))
 
 ================================================================================
 use flags after definitions are invalid
@@ -78,14 +76,9 @@ definition ns/typechecking {}
   (use_flag
     (identifier))
   (ERROR
-    (UNEXPECTED 't'))
-  (ERROR
-    (UNEXPECTED 'n'))
-  (ERROR
-    (UNEXPECTED 'n'))
-  (ERROR
-    (UNEXPECTED 'n'))
-  (ERROR
-    (UNEXPECTED 'n'))
-  (ERROR
-    (UNEXPECTED 'n')))
+    (UNEXPECTED 't')
+    (UNEXPECTED 'd')
+    (UNEXPECTED 'd')
+    (UNEXPECTED 'd')
+    (UNEXPECTED 'd')
+    (UNEXPECTED 'd')))

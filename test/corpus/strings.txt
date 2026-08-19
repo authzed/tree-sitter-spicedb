@@ -12,21 +12,7 @@ second" }
   (use_flag
     name: (identifier))
   (ERROR
-    (UNEXPECTED '\n'))
-  (ERROR
-    (UNEXPECTED 's'))
-  (ERROR
-    (type_identifier)
-    (parameter
-      name: (parameter_identifier
-        (cel_variable_identifier))
-      type: (parameter_type_identifier
-        (cel_type_identifier)))
-    (caveat_expr
-      (caveat_whitespace)
-      (caveat_text)
-      (caveat_whitespace)
-      (caveat_text)
-      (caveat_whitespace))
     (UNEXPECTED '\n')
-    (UNEXPECTED 's')))
+    (UNEXPECTED 'v')
+    (UNEXPECTED 'v')
+    (UNEXPECTED '\n')))

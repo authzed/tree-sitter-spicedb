@@ -38,9 +38,8 @@ definition 👤 {}
 
 (source_file
   (ERROR
-    (UNEXPECTED 169))
-  (ERROR
-    (UNEXPECTED 128100)))
+    (UNEXPECTED 169)
+    (UNEXPECTED 'd')))
 
 ================================================================================
 reserved keywords are not identifiers
@@ -52,10 +51,9 @@ caveat with(value string) { value == value }
 
 (source_file
   (ERROR
-    (UNEXPECTED 'd'))
-  (ERROR
-    (UNEXPECTED 'n'))
-  (ERROR
+    (UNEXPECTED 'd')
+    (UNEXPECTED 'd')
+    (UNEXPECTED 'c')
     (UNEXPECTED 'v')
     (UNEXPECTED 'v')
     (UNEXPECTED 'v')))

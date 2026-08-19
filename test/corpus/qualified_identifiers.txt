@@ -27,11 +27,11 @@ definition ns/resource {
         (unary_permission_expr
           (userset
             (field_identifier)))))
-    body: (permission
-      name: (method_identifier)
-      expr: (permission_expr
-        (unary_permission_expr
-          (userset
-            (field_identifier)))))
     (ERROR
+      (permission
+        name: (method_identifier)
+        expr: (permission_expr
+          (unary_permission_expr
+            (userset
+              (field_identifier)))))
       (UNEXPECTED 'v'))))

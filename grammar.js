@@ -9,7 +9,7 @@ module.exports = grammar({
 
   extras: $ => [
     $.comment,
-    /[ \t\r]/,
+    /[ \t\r\n]/,
   ],
 
   word: $ => $._identifier,
@@ -37,12 +37,14 @@ module.exports = grammar({
     $._nil_keyword,
     $._partial_keyword,
     $._import_keyword,
+    $._relation_ellipsis,
+    $._newline,
     $._error_sentinel,
   ],
 
   rules: {
     source_file: $ => repeat(choice($._top_level, $._statement_terminator)),
-    _statement_terminator: _ => choice(';', '\n', '\r'),
+    _statement_terminator: $ => choice(';', $._newline),
     _top_level: $ => choice(
       $.use_flag,
       $.import,
@@ -124,7 +126,11 @@ module.exports = grammar({
       optional($.relation_trait),
     ),
     wildcard_type: $ => seq($.object_identifier, ':', '*'),
-    reference_type: $ => seq($.object_identifier, '#', choice($.relation_identifier, '...')),
+    reference_type: $ => seq(
+      $.object_identifier,
+      '#',
+      choice($.relation_identifier, alias($._relation_ellipsis, '...')),
+    ),
     relation_trait: $ => choice($.expiration_trait, $.caveat_with_expiration),
     expiration_trait: $ => seq('with', $._expiration_keyword),
     caveat_with_expiration: $ => seq(

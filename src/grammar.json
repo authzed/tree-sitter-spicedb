@@ -26,12 +26,8 @@
           "value": ";"
         },
         {
-          "type": "STRING",
-          "value": "\n"
-        },
-        {
-          "type": "STRING",
-          "value": "\r"
+          "type": "SYMBOL",
+          "name": "_newline"
         }
       ]
     },
@@ -538,7 +534,12 @@
               "name": "relation_identifier"
             },
             {
-              "type": "STRING",
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_relation_ellipsis"
+              },
+              "named": false,
               "value": "..."
             }
           ]
@@ -1252,7 +1253,7 @@
     },
     {
       "type": "PATTERN",
-      "value": "[ \\t\\r]"
+      "value": "[ \\t\\r\\n]"
     }
   ],
   "conflicts": [],
@@ -1317,6 +1318,14 @@
     {
       "type": "SYMBOL",
       "name": "_import_keyword"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_relation_ellipsis"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_newline"
     },
     {
       "type": "SYMBOL",

@@ -1,0 +1,19 @@
+================================================================================
+SpiceDB identifiers
+================================================================================
+definition a {}
+definition a1 {}
+definition _foo {}
+definition 1foo {}
+definition User {}
+definition 一级 {}
+definition aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa {}
+--------------------------------------------------------------------------------
+(source_file
+  (object_definition name: (type_identifier))
+  (object_definition name: (type_identifier))
+  (object_definition name: (type_identifier))
+  (object_definition name: (type_identifier))
+  (object_definition name: (type_identifier))
+  (object_definition name: (type_identifier))
+  (object_definition name: (type_identifier)))

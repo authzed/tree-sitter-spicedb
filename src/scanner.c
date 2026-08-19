@@ -108,7 +108,15 @@ static bool scan_segment(TSLexer *lexer, char *value, size_t size, bool *ascii) 
 
 bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
   Scanner *scanner = payload;
-  if (valid_symbols[ERROR_SENTINEL]) return false;
+  if (valid_symbols[ERROR_SENTINEL]) {
+    if (!scanner->expiration_enabled) return false;
+    while (lexer->lookahead == ' ' || lexer->lookahead == '\t') lexer->advance(lexer, true);
+    char value[4] = {0};
+    bool ascii = true;
+    if (!scan_segment(lexer, value, sizeof(value), &ascii) || !ascii || strcmp(value, "and")) return false;
+    lexer->result_symbol = AND_KEYWORD;
+    return true;
+  }
   while (lexer->lookahead == ' ' || lexer->lookahead == '\t') lexer->advance(lexer, true);
   if (lexer->lookahead == '\r' || lexer->lookahead == '\n') {
     if (!valid_symbols[NEWLINE] || scanner->relation_ellipsis) return false;

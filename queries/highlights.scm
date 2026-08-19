@@ -7,6 +7,7 @@
   "relation"
   "nil"
   "expiration"
+  "and"
 ] @keyword
 
 [

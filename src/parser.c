@@ -162,7 +162,7 @@ static const char * const ts_symbol_names[] = {
   [sym__caveat_keyword] = "caveat",
   [sym__self_keyword] = "_self_keyword",
   [sym__expiration_keyword] = "expiration",
-  [sym__and_keyword] = "_and_keyword",
+  [sym__and_keyword] = "and",
   [sym__nil_keyword] = "nil",
   [sym__partial_keyword] = "_partial_keyword",
   [sym__import_keyword] = "_import_keyword",
@@ -496,8 +496,8 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = false,
   },
   [sym__and_keyword] = {
-    .visible = false,
-    .named = true,
+    .visible = true,
+    .named = false,
   },
   [sym__nil_keyword] = {
     .visible = true,

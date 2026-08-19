@@ -82,7 +82,6 @@ definition ns/typechecking {}
     (UNEXPECTED '\n')
     (UNEXPECTED 's')
     (UNEXPECTED '\n')
-    (UNEXPECTED 'd')
     (UNEXPECTED '\n')
     (UNEXPECTED 'a')
     (UNEXPECTED '\n')

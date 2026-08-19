@@ -670,8 +670,13 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "_and_keyword"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_and_keyword"
+                  },
+                  "named": false,
+                  "value": "and"
                 },
                 {
                   "type": "ALIAS",

@@ -781,6 +781,10 @@
     "named": false
   },
   {
+    "type": "and",
+    "named": false
+  },
+  {
     "type": "any",
     "named": false
   },

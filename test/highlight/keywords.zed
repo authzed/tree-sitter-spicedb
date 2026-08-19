@@ -2,6 +2,10 @@ use expiration
 //  ^ keyword
 
 definition resource {
-  relation viewer: user with expiration
-//                           ^ keyword
+  relation viewer: user with somecaveat and expiration
+//                                        ^ keyword
+//                                            ^ keyword
+
+  relation editor: user with expiration and somecaveat
+//                                      ^ keyword
 }

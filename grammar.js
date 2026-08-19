@@ -143,7 +143,10 @@ module.exports = grammar({
     caveat_with_expiration: $ => seq(
       'with',
       $.caveat_identifier,
-      optional(seq($._and_keyword, alias($._expiration_keyword, 'expiration'))),
+      optional(seq(
+        alias($._and_keyword, 'and'),
+        alias($._expiration_keyword, 'expiration'),
+      )),
     ),
 
     userset: $ => choice($.relation_identifier, $.arrow_expression),

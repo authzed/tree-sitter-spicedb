@@ -28,6 +28,9 @@ module.exports = grammar({
     $._use_expiration_flag,
     $._use_partial_flag,
     $._use_import_flag,
+    $._use_typechecking_flag,
+    $._definition_keyword,
+    $._caveat_keyword,
     $._self_keyword,
     $._expiration_keyword,
     $._and_keyword,
@@ -77,7 +80,7 @@ module.exports = grammar({
     ),
 
     object_definition: $ => seq(
-      'definition',
+      alias($._definition_keyword, 'definition'),
       field('name', $.object_identifier),
       '{',
       repeat($._statement_terminator),
@@ -93,7 +96,7 @@ module.exports = grammar({
       alias($._use_expiration_flag, $.identifier),
       alias($._use_partial_flag, $.identifier),
       alias($._use_import_flag, $.identifier),
-      $.identifier,
+      alias($._use_typechecking_flag, $.identifier),
     ))),
     import: $ => seq($._import_keyword, field('path', $.string_literal)),
     string_literal: _ => token(choice(
@@ -176,7 +179,7 @@ module.exports = grammar({
     ),
 
     caveat_definition: $ => seq(
-      'caveat',
+      alias($._caveat_keyword, 'caveat'),
       field('name', $.caveat_identifier),
       '(',
       field('parameters', seq($.parameter, repeat(seq(',', $.parameter)))),

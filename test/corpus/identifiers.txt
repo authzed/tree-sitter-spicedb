@@ -51,7 +51,8 @@ caveat with(value string) { value == value }
 --------------------------------------------------------------------------------
 
 (source_file
-  (ERROR)
+  (ERROR
+    (UNEXPECTED 'd'))
   (ERROR
     (UNEXPECTED 'n'))
   (ERROR

@@ -14,6 +14,9 @@ enum TokenType {
   USE_EXPIRATION_FLAG,
   USE_PARTIAL_FLAG,
   USE_IMPORT_FLAG,
+  USE_TYPECHECKING_FLAG,
+  DEFINITION_KEYWORD,
+  CAVEAT_KEYWORD,
   SELF_KEYWORD,
   EXPIRATION_KEYWORD,
   AND_KEYWORD,
@@ -28,6 +31,8 @@ typedef struct {
   bool expiration_enabled;
   bool partial_enabled;
   bool import_enabled;
+  bool definition_seen;
+  bool typechecking_enabled;
 } Scanner;
 
 void *tree_sitter_spicedb_external_scanner_create(void) {
@@ -41,7 +46,8 @@ void tree_sitter_spicedb_external_scanner_destroy(void *payload) {
 unsigned tree_sitter_spicedb_external_scanner_serialize(void *payload, char *buffer) {
   Scanner *scanner = payload;
   buffer[0] = scanner->self_enabled | scanner->expiration_enabled << 1 |
-      scanner->partial_enabled << 2 | scanner->import_enabled << 3;
+      scanner->partial_enabled << 2 | scanner->import_enabled << 3 |
+      scanner->definition_seen << 4 | scanner->typechecking_enabled << 5;
   return 1;
 }
 
@@ -51,6 +57,8 @@ void tree_sitter_spicedb_external_scanner_deserialize(void *payload, const char 
   scanner->expiration_enabled = length > 0 && (buffer[0] & 2);
   scanner->partial_enabled = length > 0 && (buffer[0] & 4);
   scanner->import_enabled = length > 0 && (buffer[0] & 8);
+  scanner->definition_seen = length > 0 && (buffer[0] & 16);
+  scanner->typechecking_enabled = length > 0 && (buffer[0] & 32);
 }
 
 static bool is_unicode_letter_or_digit(int32_t codepoint) {
@@ -98,7 +106,8 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
       (!valid_symbols[IDENTIFIER] && !valid_symbols[QUALIFIED_IDENTIFIER] &&
        !valid_symbols[USE_SELF_FLAG] && !valid_symbols[USE_EXPIRATION_FLAG] &&
        !valid_symbols[USE_PARTIAL_FLAG] && !valid_symbols[USE_IMPORT_FLAG] &&
-       !valid_symbols[SELF_KEYWORD] &&
+       !valid_symbols[USE_TYPECHECKING_FLAG] && !valid_symbols[DEFINITION_KEYWORD] &&
+       !valid_symbols[CAVEAT_KEYWORD] && !valid_symbols[SELF_KEYWORD] &&
        !valid_symbols[EXPIRATION_KEYWORD] &&
        !valid_symbols[AND_KEYWORD] && !valid_symbols[NIL_KEYWORD] &&
        !valid_symbols[PARTIAL_KEYWORD] && !valid_symbols[IMPORT_KEYWORD])) return false;
@@ -106,8 +115,19 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
   char value[16] = {0};
   bool ascii = true;
   if (!scan_segment(lexer, value, sizeof(value), &ascii)) return false;
+  if (ascii && !strcmp(value, "definition") && valid_symbols[DEFINITION_KEYWORD]) {
+    scanner->definition_seen = true;
+    lexer->result_symbol = DEFINITION_KEYWORD;
+    return true;
+  }
+  if (ascii && !strcmp(value, "caveat") && valid_symbols[CAVEAT_KEYWORD]) {
+    scanner->definition_seen = true;
+    lexer->result_symbol = CAVEAT_KEYWORD;
+    return true;
+  }
   if (ascii && !strcmp(value, "self")) {
     if (valid_symbols[USE_SELF_FLAG]) {
+      if (scanner->definition_seen) return false;
       scanner->self_enabled = true;
       lexer->result_symbol = USE_SELF_FLAG;
       return true;
@@ -120,6 +140,7 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
   }
   if (ascii && !strcmp(value, "expiration")) {
     if (valid_symbols[USE_EXPIRATION_FLAG]) {
+      if (scanner->definition_seen) return false;
       scanner->expiration_enabled = true;
       lexer->result_symbol = USE_EXPIRATION_FLAG;
       return true;
@@ -141,6 +162,7 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
   }
   if (ascii && !strcmp(value, "partial")) {
     if (valid_symbols[USE_PARTIAL_FLAG]) {
+      if (scanner->definition_seen) return false;
       scanner->partial_enabled = true;
       lexer->result_symbol = USE_PARTIAL_FLAG;
       return true;
@@ -153,6 +175,7 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
   }
   if (ascii && !strcmp(value, "import")) {
     if (valid_symbols[USE_IMPORT_FLAG]) {
+      if (scanner->definition_seen) return false;
       scanner->import_enabled = true;
       lexer->result_symbol = USE_IMPORT_FLAG;
       return true;
@@ -163,6 +186,13 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
       return true;
     }
   }
+  if (ascii && !strcmp(value, "typechecking") && valid_symbols[USE_TYPECHECKING_FLAG]) {
+    if (scanner->definition_seen) return false;
+    scanner->typechecking_enabled = true;
+    lexer->result_symbol = USE_TYPECHECKING_FLAG;
+    return true;
+  }
+  if (ascii && !strcmp(value, "typechecking") && scanner->typechecking_enabled) return false;
   if (ascii && is_reserved(value)) return false;
 
   if (!valid_symbols[IDENTIFIER] && !valid_symbols[QUALIFIED_IDENTIFIER]) return false;

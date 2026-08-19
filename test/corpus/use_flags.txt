@@ -1,0 +1,64 @@
+================================================================================
+valid and duplicate use flags
+================================================================================
+use typechecking
+use self
+use self
+definition resource {
+  permission view = self
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (use_flag
+    name: (identifier))
+  (use_flag
+    name: (identifier))
+  (use_flag
+    name: (identifier))
+  (object_definition
+    name: (type_identifier)
+    body: (permission
+      name: (method_identifier)
+      expr: (permission_expr
+        (unary_permission_expr
+          (self_expression))))))
+
+================================================================================
+unknown use flags are invalid
+================================================================================
+use something
+definition resource {}
+--------------------------------------------------------------------------------
+
+(source_file
+  (ERROR
+    (UNEXPECTED 's'))
+  (object_definition
+    (type_identifier)))
+
+================================================================================
+use flags after definitions are invalid
+================================================================================
+definition resource {}
+use expiration
+--------------------------------------------------------------------------------
+
+(source_file
+  (object_definition
+    (type_identifier))
+  (ERROR
+    (UNEXPECTED 'e')))
+
+================================================================================
+enabled feature names are reserved globally
+================================================================================
+use typechecking
+definition typechecking {}
+--------------------------------------------------------------------------------
+
+(source_file
+  (use_flag
+    (identifier))
+  (ERROR
+    (UNEXPECTED 't')))

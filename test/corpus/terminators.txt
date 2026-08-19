@@ -54,7 +54,8 @@ definition resource {
     editor
 }
 caveat context(
-  first string,
+  first map<string>
+  ,
   second int
 ) { first != "" }
 --------------------------------------------------------------------------------
@@ -98,7 +99,9 @@ caveat context(
       (parameter_identifier
         (cel_variable_identifier))
       (parameter_type_identifier
-        (cel_type_identifier)))
+        (cel_type_identifier)
+        (parameter_type_identifier
+          (cel_type_identifier))))
     (parameter
       (parameter_identifier
         (cel_variable_identifier))

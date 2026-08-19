@@ -83,6 +83,7 @@ module.exports = grammar({
         $.parameter_type_identifier,
         repeat(seq(',', repeat($._newline), $.parameter_type_identifier)),
         '>',
+        repeat($._newline),
       )),
     ),
 

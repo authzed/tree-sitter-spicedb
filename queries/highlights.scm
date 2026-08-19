@@ -43,6 +43,7 @@
 ] @constant.builtin
 
 (comment) @comment
+(string_literal) @string
 (use_flag name: (identifier) @keyword)
 (type_identifier) @type
 (cel_type_identifier) @type

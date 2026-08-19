@@ -13,6 +13,7 @@ use import
 
 import "common.zed"
 // <- keyword
+//     ^ string
 
 partial common {}
 // <- keyword

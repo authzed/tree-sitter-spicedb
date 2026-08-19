@@ -22,9 +22,19 @@
 [
   "("
   ")"
-  "{"
-  "}"
 ] @punctuation.bracket
+
+(object_definition
+  "{" @punctuation.bracket
+  "}" @punctuation.bracket)
+
+(partial_definition
+  "{" @punctuation.bracket
+  "}" @punctuation.bracket)
+
+(caveat_definition
+  "{" @punctuation.bracket
+  "}" @punctuation.bracket)
 
 [
   "|"

@@ -18,6 +18,12 @@ import "common.zed"
 partial common {}
 // <- keyword
 
+caveat check(value string) {
+//                         ^ punctuation.bracket
+  {"key": value}
+}
+// <- punctuation.bracket
+
 definition resource {
   ...common
 //^ operator

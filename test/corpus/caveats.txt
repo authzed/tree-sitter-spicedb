@@ -1,0 +1,27 @@
+================================================================================
+generic caveat types and CEL objects
+================================================================================
+caveat somecaveat(somemap map<string>, somelist list<int>) {
+  ({"themap": 42}).contains("whatever") && somelist.contains("hiya")
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (caveat_definition
+    name: (func_identifier)
+    parameters: (parameter
+      name: (parameter_identifier
+        (cel_variable_identifier))
+      type: (parameter_type_identifier
+        (cel_type_identifier)
+        (parameter_type_identifier
+          (cel_type_identifier))))
+    parameters: (parameter
+      name: (parameter_identifier
+        (cel_variable_identifier))
+      type: (parameter_type_identifier
+        (cel_type_identifier)
+        (parameter_type_identifier
+          (cel_type_identifier))))
+    expr: (caveat_expr
+      (caveat_object))))

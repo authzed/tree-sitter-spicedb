@@ -48,7 +48,15 @@ module.exports = grammar({
 
     caveat_identifier: $ => alias($.identifier, $.func_identifier),
     parameter_identifier: $ => alias($.identifier, $.cel_variable_identifier),
-    parameter_type_identifier: $ => alias($.identifier, $.cel_type_identifier),
+    parameter_type_identifier: $ => seq(
+      alias($.identifier, $.cel_type_identifier),
+      optional(seq(
+        '<',
+        $.parameter_type_identifier,
+        repeat(seq(',', $.parameter_type_identifier)),
+        '>',
+      )),
+    ),
 
     object_definition: $ => seq(
       'definition',
@@ -137,6 +145,7 @@ module.exports = grammar({
       optional(','),
     )),
 
-    caveat_expr: _ => /([^}]+)*/,
+    caveat_expr: $ => repeat1(choice(/[^{}]+/, $.caveat_object)),
+    caveat_object: $ => seq('{', repeat(choice(/[^{}]+/, $.caveat_object)), '}'),
   },
 });

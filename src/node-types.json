@@ -104,6 +104,36 @@
     }
   },
   {
+    "type": "caveat_expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "caveat_object",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "caveat_object",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "caveat_object",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "import",
     "named": true,
     "fields": {}
@@ -188,11 +218,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "cel_type_identifier",
+          "named": true
+        },
+        {
+          "type": "parameter_type_identifier",
           "named": true
         }
       ]
@@ -571,7 +605,15 @@
     "named": false
   },
   {
+    "type": "<",
+    "named": false
+  },
+  {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
     "named": false
   },
   {
@@ -585,10 +627,6 @@
   {
     "type": "caveat",
     "named": false
-  },
-  {
-    "type": "caveat_expr",
-    "named": true
   },
   {
     "type": "cel_type_identifier",

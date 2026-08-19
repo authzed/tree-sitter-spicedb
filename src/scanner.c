@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "unicode_ranges.h"
@@ -9,6 +10,7 @@
 enum TokenType {
   IDENTIFIER,
   QUALIFIED_IDENTIFIER,
+  USE_SELF_FLAG,
   SELF_KEYWORD,
   EXPIRATION_KEYWORD,
   AND_KEYWORD,
@@ -16,17 +18,26 @@ enum TokenType {
   ERROR_SENTINEL,
 };
 
+typedef struct {
+  bool self_enabled;
+} Scanner;
+
 void *tree_sitter_spicedb_external_scanner_create(void) {
-  return NULL;
+  return calloc(1, sizeof(Scanner));
 }
 
-void tree_sitter_spicedb_external_scanner_destroy(void *payload) {}
+void tree_sitter_spicedb_external_scanner_destroy(void *payload) {
+  free(payload);
+}
 
 unsigned tree_sitter_spicedb_external_scanner_serialize(void *payload, char *buffer) {
-  return 0;
+  buffer[0] = ((Scanner *)payload)->self_enabled;
+  return 1;
 }
 
-void tree_sitter_spicedb_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {}
+void tree_sitter_spicedb_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
+  ((Scanner *)payload)->self_enabled = length > 0 && buffer[0];
+}
 
 static bool is_unicode_letter_or_digit(int32_t codepoint) {
   size_t left = 0;
@@ -68,17 +79,27 @@ static bool scan_segment(TSLexer *lexer, char *value, size_t size, bool *ascii) 
 }
 
 bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+  Scanner *scanner = payload;
   if (valid_symbols[ERROR_SENTINEL] ||
       (!valid_symbols[IDENTIFIER] && !valid_symbols[QUALIFIED_IDENTIFIER] &&
-       !valid_symbols[SELF_KEYWORD] && !valid_symbols[EXPIRATION_KEYWORD] &&
+       !valid_symbols[USE_SELF_FLAG] && !valid_symbols[SELF_KEYWORD] &&
+       !valid_symbols[EXPIRATION_KEYWORD] &&
        !valid_symbols[AND_KEYWORD] && !valid_symbols[NIL_KEYWORD])) return false;
   while (lexer->lookahead == ' ' || lexer->lookahead == '\t') lexer->advance(lexer, true);
   char value[16] = {0};
   bool ascii = true;
   if (!scan_segment(lexer, value, sizeof(value), &ascii)) return false;
-  if (ascii && !strcmp(value, "self") && valid_symbols[SELF_KEYWORD]) {
-    lexer->result_symbol = SELF_KEYWORD;
-    return true;
+  if (ascii && !strcmp(value, "self")) {
+    if (valid_symbols[USE_SELF_FLAG]) {
+      scanner->self_enabled = true;
+      lexer->result_symbol = USE_SELF_FLAG;
+      return true;
+    }
+    if (scanner->self_enabled) {
+      if (!valid_symbols[SELF_KEYWORD]) return false;
+      lexer->result_symbol = SELF_KEYWORD;
+      return true;
+    }
   }
   if (ascii && !strcmp(value, "expiration") && valid_symbols[EXPIRATION_KEYWORD]) {
     lexer->result_symbol = EXPIRATION_KEYWORD;

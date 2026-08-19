@@ -289,8 +289,22 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_use_self_flag"
+                },
+                "named": true,
+                "value": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              }
+            ]
           }
         }
       ]
@@ -1209,6 +1223,10 @@
     {
       "type": "SYMBOL",
       "name": "_qualified_identifier"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_use_self_flag"
     },
     {
       "type": "SYMBOL",

@@ -1,6 +1,7 @@
 ================================================================================
 permission expression forms
 ================================================================================
+use self
 definition resource {
   permission grouped = (reader & writer) + self
   permission arrow = parent.any(member).all(editor)->viewer
@@ -10,6 +11,8 @@ definition resource {
 --------------------------------------------------------------------------------
 
 (source_file
+  (use_flag
+    name: (identifier))
   (object_definition
     name: (type_identifier)
     body: (permission
@@ -86,3 +89,21 @@ definition resource {
             (unary_permission_expr
               (userset
                 (field_identifier)))))))))
+
+================================================================================
+self is an identifier without its use flag
+================================================================================
+definition resource {
+  permission view = self
+}
+--------------------------------------------------------------------------------
+
+(source_file
+  (object_definition
+    name: (type_identifier)
+    body: (permission
+      name: (method_identifier)
+      expr: (permission_expr
+        (unary_permission_expr
+          (userset
+            (field_identifier)))))))

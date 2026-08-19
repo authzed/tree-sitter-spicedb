@@ -9,7 +9,6 @@
   "self"
   "partial"
   "import"
-  "nil"
   "expiration"
   "and"
 ] @keyword

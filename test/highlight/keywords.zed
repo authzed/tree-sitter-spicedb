@@ -42,4 +42,7 @@ definition resource {
 //                          ^ function.builtin
 //                                     ^ punctuation.delimiter
 //                                      ^ function.builtin
+
+  permission empty = nil
+//                   ^ constant.builtin
 }

@@ -36,4 +36,10 @@ definition resource {
   permission typed: user | group = viewer
 //                  ^ type
 //                         ^ type
+
+  permission arrow = parent.any(member).all(editor)->viewer
+//                         ^ punctuation.delimiter
+//                          ^ function.builtin
+//                                     ^ punctuation.delimiter
+//                                      ^ function.builtin
 }

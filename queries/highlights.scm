@@ -17,6 +17,7 @@
 [
   ","
   ":"
+  "."
 ] @punctuation.delimiter
 
 [
@@ -42,6 +43,11 @@
   "nil"
   "*"
 ] @constant.builtin
+
+[
+  "any"
+  "all"
+] @function.builtin
 
 (comment) @comment
 (string_literal) @string

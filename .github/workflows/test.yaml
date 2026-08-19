@@ -10,11 +10,11 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
         with:
-          version: 8
-      - uses: actions/setup-node@v4
+          version: 8.15.9
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           cache: pnpm
       - name: Install
@@ -24,7 +24,7 @@ jobs:
       - name: Generate grammar
         run: pnpm run generate
       - name: Verify generation
-        uses: "chainguard-dev/actions/nodiff@main"
+        uses: "chainguard-dev/actions/nodiff@7bd1e94b2a1b7faa891392757de7d89489070c5c" # v1.6.32
         with:
           fixup-command: "npm run generate"
       - name: Test corpus

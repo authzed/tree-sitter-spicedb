@@ -139,11 +139,11 @@ module.exports = grammar({
       choice($.relation_identifier, alias($._relation_ellipsis, '...')),
     ),
     relation_trait: $ => choice($.expiration_trait, $.caveat_with_expiration),
-    expiration_trait: $ => seq('with', $._expiration_keyword),
+    expiration_trait: $ => seq('with', alias($._expiration_keyword, 'expiration')),
     caveat_with_expiration: $ => seq(
       'with',
       $.caveat_identifier,
-      optional(seq($._and_keyword, $._expiration_keyword)),
+      optional(seq($._and_keyword, alias($._expiration_keyword, 'expiration'))),
     ),
 
     userset: $ => choice($.relation_identifier, $.arrow_expression),

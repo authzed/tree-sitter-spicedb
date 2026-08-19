@@ -11,6 +11,16 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "tree-sitter": [
+    {
+      "scope": "source.spicedb",
+      "file-types": [
+        "zed"
+      ],
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm"
+    }
+  ],
   "devDependencies": {
     "eslint": "^8.47.0",
     "eslint-config-google": "^0.14.0",

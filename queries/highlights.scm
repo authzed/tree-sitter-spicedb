@@ -6,6 +6,7 @@
   "permission"
   "relation"
   "nil"
+  "expiration"
 ] @keyword
 
 [
@@ -37,6 +38,7 @@
 ] @constant.builtin
 
 (comment) @comment
+(use_flag name: (identifier) @keyword)
 (type_identifier) @type
 (cel_type_identifier) @type
 (cel_variable_identifier) @variable.parameter

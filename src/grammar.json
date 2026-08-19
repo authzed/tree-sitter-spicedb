@@ -642,8 +642,13 @@
           "value": "with"
         },
         {
-          "type": "SYMBOL",
-          "name": "_expiration_keyword"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_expiration_keyword"
+          },
+          "named": false,
+          "value": "expiration"
         }
       ]
     },
@@ -669,8 +674,13 @@
                   "name": "_and_keyword"
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "_expiration_keyword"
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_expiration_keyword"
+                  },
+                  "named": false,
+                  "value": "expiration"
                 }
               ]
             },

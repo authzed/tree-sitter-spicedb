@@ -1,12 +1,14 @@
 ================================================================================
 expiration traits
 ================================================================================
+use expiration
 definition resource {
   relation viewer: user with expiration
   relation editor: user with somecaveat and expiration
 }
 --------------------------------------------------------------------------------
 (source_file
+  (use_flag name: (identifier))
   (object_definition
     name: (type_identifier)
     body: (relation
@@ -15,6 +17,23 @@ definition resource {
         (relation_type
           (type_identifier)
           (relation_trait (expiration_trait))))))
+    body: (relation
+      name: (field_identifier)
+      expr: (relation_expr (unary_relation_expr
+        (relation_type
+          (type_identifier)
+          (relation_trait (caveat_with_expiration (func_identifier)))))))))
+
+================================================================================
+expiration is a caveat without its use flag
+================================================================================
+definition resource {
+  relation viewer: user with expiration
+}
+--------------------------------------------------------------------------------
+(source_file
+  (object_definition
+    name: (type_identifier)
     body: (relation
       name: (field_identifier)
       expr: (relation_expr (unary_relation_expr

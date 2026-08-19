@@ -25,6 +25,7 @@ module.exports = grammar({
     $._identifier,
     $._qualified_identifier,
     $._use_self_flag,
+    $._use_expiration_flag,
     $._self_keyword,
     $._expiration_keyword,
     $._and_keyword,
@@ -85,6 +86,7 @@ module.exports = grammar({
 
     use_flag: $ => seq('use', field('name', choice(
       alias($._use_self_flag, $.identifier),
+      alias($._use_expiration_flag, $.identifier),
       $.identifier,
     ))),
     import: $ => seq('import', field('path', $.string_literal)),

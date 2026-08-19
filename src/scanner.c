@@ -11,6 +11,7 @@ enum TokenType {
   IDENTIFIER,
   QUALIFIED_IDENTIFIER,
   USE_SELF_FLAG,
+  USE_EXPIRATION_FLAG,
   SELF_KEYWORD,
   EXPIRATION_KEYWORD,
   AND_KEYWORD,
@@ -20,6 +21,7 @@ enum TokenType {
 
 typedef struct {
   bool self_enabled;
+  bool expiration_enabled;
 } Scanner;
 
 void *tree_sitter_spicedb_external_scanner_create(void) {
@@ -31,12 +33,15 @@ void tree_sitter_spicedb_external_scanner_destroy(void *payload) {
 }
 
 unsigned tree_sitter_spicedb_external_scanner_serialize(void *payload, char *buffer) {
-  buffer[0] = ((Scanner *)payload)->self_enabled;
+  Scanner *scanner = payload;
+  buffer[0] = scanner->self_enabled | scanner->expiration_enabled << 1;
   return 1;
 }
 
 void tree_sitter_spicedb_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
-  ((Scanner *)payload)->self_enabled = length > 0 && buffer[0];
+  Scanner *scanner = payload;
+  scanner->self_enabled = length > 0 && (buffer[0] & 1);
+  scanner->expiration_enabled = length > 0 && (buffer[0] & 2);
 }
 
 static bool is_unicode_letter_or_digit(int32_t codepoint) {
@@ -82,7 +87,8 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
   Scanner *scanner = payload;
   if (valid_symbols[ERROR_SENTINEL] ||
       (!valid_symbols[IDENTIFIER] && !valid_symbols[QUALIFIED_IDENTIFIER] &&
-       !valid_symbols[USE_SELF_FLAG] && !valid_symbols[SELF_KEYWORD] &&
+       !valid_symbols[USE_SELF_FLAG] && !valid_symbols[USE_EXPIRATION_FLAG] &&
+       !valid_symbols[SELF_KEYWORD] &&
        !valid_symbols[EXPIRATION_KEYWORD] &&
        !valid_symbols[AND_KEYWORD] && !valid_symbols[NIL_KEYWORD])) return false;
   while (lexer->lookahead == ' ' || lexer->lookahead == '\t') lexer->advance(lexer, true);
@@ -101,11 +107,20 @@ bool tree_sitter_spicedb_external_scanner_scan(void *payload, TSLexer *lexer, co
       return true;
     }
   }
-  if (ascii && !strcmp(value, "expiration") && valid_symbols[EXPIRATION_KEYWORD]) {
-    lexer->result_symbol = EXPIRATION_KEYWORD;
-    return true;
+  if (ascii && !strcmp(value, "expiration")) {
+    if (valid_symbols[USE_EXPIRATION_FLAG]) {
+      scanner->expiration_enabled = true;
+      lexer->result_symbol = USE_EXPIRATION_FLAG;
+      return true;
+    }
+    if (scanner->expiration_enabled) {
+      if (!valid_symbols[EXPIRATION_KEYWORD]) return false;
+      lexer->result_symbol = EXPIRATION_KEYWORD;
+      return true;
+    }
   }
-  if (ascii && !strcmp(value, "and") && valid_symbols[AND_KEYWORD]) {
+  if (ascii && !strcmp(value, "and") && scanner->expiration_enabled) {
+    if (!valid_symbols[AND_KEYWORD]) return false;
     lexer->result_symbol = AND_KEYWORD;
     return true;
   }

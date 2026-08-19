@@ -301,6 +301,15 @@
                 "value": "identifier"
               },
               {
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_use_expiration_flag"
+                },
+                "named": true,
+                "value": "identifier"
+              },
+              {
                 "type": "SYMBOL",
                 "name": "identifier"
               }
@@ -1227,6 +1236,10 @@
     {
       "type": "SYMBOL",
       "name": "_use_self_flag"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_use_expiration_flag"
     },
     {
       "type": "SYMBOL",

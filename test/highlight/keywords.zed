@@ -28,4 +28,8 @@ definition resource {
 
   permission view = self
 //                  ^ keyword
+
+  permission typed: user | group = viewer
+//                  ^ type
+//                         ^ type
 }

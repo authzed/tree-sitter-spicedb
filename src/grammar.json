@@ -388,7 +388,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "caveat"
+              "name": "relation_trait"
             },
             {
               "type": "BLANK"
@@ -431,7 +431,33 @@
         }
       ]
     },
-    "caveat": {
+    "relation_trait": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "expiration_trait"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "caveat_with_expiration"
+        }
+      ]
+    },
+    "expiration_trait": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "with"
+        },
+        {
+          "type": "STRING",
+          "value": "expiration"
+        }
+      ]
+    },
+    "caveat_with_expiration": {
       "type": "SEQ",
       "members": [
         {
@@ -441,6 +467,27 @@
         {
           "type": "SYMBOL",
           "name": "caveat_identifier"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "and"
+                },
+                {
+                  "type": "STRING",
+                  "value": "expiration"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

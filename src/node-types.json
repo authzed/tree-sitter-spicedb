@@ -49,21 +49,6 @@
     }
   },
   {
-    "type": "caveat",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "func_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "caveat_definition",
     "named": true,
     "fields": {
@@ -132,6 +117,26 @@
         }
       ]
     }
+  },
+  {
+    "type": "caveat_with_expiration",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "func_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expiration_trait",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "import",
@@ -432,6 +437,25 @@
     }
   },
   {
+    "type": "relation_trait",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "caveat_with_expiration",
+          "named": true
+        },
+        {
+          "type": "expiration_trait",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "relation_type",
     "named": true,
     "fields": {},
@@ -440,11 +464,11 @@
       "required": true,
       "types": [
         {
-          "type": "caveat",
+          "type": "reference_type",
           "named": true
         },
         {
-          "type": "reference_type",
+          "type": "relation_trait",
           "named": true
         },
         {
@@ -646,6 +670,10 @@
     "named": false
   },
   {
+    "type": "and",
+    "named": false
+  },
+  {
     "type": "any",
     "named": false
   },
@@ -667,6 +695,10 @@
   },
   {
     "type": "definition",
+    "named": false
+  },
+  {
+    "type": "expiration",
     "named": false
   },
   {

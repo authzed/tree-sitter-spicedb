@@ -82,13 +82,16 @@ module.exports = grammar({
 
     relation_type: $ => seq(
       choice($.object_identifier, $.wildcard_type, $.reference_type),
-      optional($.caveat),
+      optional($.relation_trait),
     ),
     wildcard_type: $ => seq($.object_identifier, ':', '*'),
     reference_type: $ => seq($.object_identifier, '#', $.relation_identifier),
-    caveat: $ => seq(
+    relation_trait: $ => choice($.expiration_trait, $.caveat_with_expiration),
+    expiration_trait: _ => seq('with', 'expiration'),
+    caveat_with_expiration: $ => seq(
       'with',
       $.caveat_identifier,
+      optional(seq('and', 'expiration')),
     ),
 
     userset: $ => choice($.relation_identifier, $.arrow_expression),

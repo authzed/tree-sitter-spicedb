@@ -22,12 +22,8 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => seq(
-      repeat($._statement_terminator),
-      repeat(seq($._top_level, repeat1($._statement_terminator))),
-      optional($._top_level),
-    ),
-    _statement_terminator: _ => choice(';', '\n'),
+    source_file: $ => repeat(choice($._top_level, $._statement_terminator)),
+    _statement_terminator: _ => choice(';', '\n', '\r'),
     _top_level: $ => choice(
       $.use_flag,
       $.import,

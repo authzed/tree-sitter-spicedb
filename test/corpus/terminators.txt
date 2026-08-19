@@ -18,3 +18,12 @@ definition user {}; definition document {
       name: (method_identifier)
       expr: (permission_expr (unary_permission_expr
         (userset (field_identifier)))))))
+
+================================================================================
+adjacent top-level declarations
+================================================================================
+definition user {} definition document {}
+--------------------------------------------------------------------------------
+(source_file
+  (object_definition name: (type_identifier))
+  (object_definition name: (type_identifier)))
